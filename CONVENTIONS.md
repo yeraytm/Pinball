@@ -33,7 +33,3 @@ void SomeFunction()
    // TODO: Do something here!
 }
 ```
-
- - Project uses **TABS** instead of 4 spaces.
-
- - Trailing spaces MUST be avoided!
