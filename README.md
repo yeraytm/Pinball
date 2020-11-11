@@ -1,8 +1,8 @@
-# Paracelsus
+# Pinball Game
 
 ## Description
 
-Fantasy 2D platformer game developed by 3 students at CITM. In the game you are a magician who can control the elements which are learned after defeating the elemental enemies.
+Pinball game developed by a group of three students of CITM (Centre de la Imatge i la Tecnologia Multimèdia) as part of UPC (Universitat Politècnica de Catalunya). This is a project assignment from the subject of Physics II and developed using SDL and Box2D.
 
 ## Key Features
 
@@ -12,24 +12,17 @@ Fantasy 2D platformer game developed by 3 students at CITM. In the game you are 
  
 ## Controls
 
-### Player movement
+### movement
 
 |Key|Action|
-|---|------|
-|A|Move left|
-|D|Move right|
-
-### DEBUG Keys
-
-|Key|Action|
-|---|------|
-|F1|Start from the first level|
+|-|-|
+|X|Y|
 
 ## Developers
 
- - Alejandro Ávila [Omicrxn](https://github.com/Omicrxn) - Developer & Designer
- - Bosco Barber [boscobarberesbert](https://github.com/boscobarberesbert) - Developer & Designer
- - Yeray Tarifa [yeraytm](https://github.com/yeraytm) - Developer & Designer
+ - Alejandro Ávila [Omicrxn](https://github.com/Omicrxn) - Developer
+ - Bosco Barber [boscobarberesbert](https://github.com/boscobarberesbert) - Developer
+ - Yeray Tarifa [yeraytm](https://github.com/yeraytm) - Developer
 
 ## License
 
