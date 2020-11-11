@@ -12,8 +12,6 @@ Pinball game developed by a group of three students of CITM (Centre de la Imatge
  
 ## Controls
 
-### movement
-
 |Key|Action|
 |-|-|
 |X|Y|
