@@ -101,6 +101,72 @@ bool ModuleSceneIntro::Start()
 
 	pinballBodies.add(App->physics->CreateChain(0, 0, game_back, 124));
 
+	//// Pivot 0, 0
+	//int game_back_ramp[48] = {
+	//	110, 375,
+	//	83, 390,
+	//	73, 363,
+	//	70, 335,
+	//	76, 305,
+	//	92, 281,
+	//	113, 264,
+	//	145, 252,
+	//	185, 251,
+	//	222, 264,
+	//	253, 290,
+	//	270, 332,
+	//	275, 425,
+	//	257, 425,
+	//	252, 352,
+	//	246, 321,
+	//	236, 299,
+	//	216, 280,
+	//	187, 269,
+	//	149, 269,
+	//	116, 282,
+	//	97, 303,
+	//	93, 329,
+	//	96, 351
+	//};
+
+	//pinballBodies.add(App->physics->CreateChain(0, 0, game_back_ramp, 48));
+
+	// Pivot 0, 0
+	int game_back_ramp_1[60] = {
+		111, 376,
+		97, 351,
+		94, 326,
+		97, 303,
+		114, 284,
+		133, 273,
+		158, 268,
+		181, 268,
+		205, 275,
+		223, 286,
+		236, 301,
+		245, 321,
+		251, 345,
+		254, 371,
+		256, 426,
+		256, 426,
+		254, 371,
+		251, 345,
+		245, 321,
+		236, 301,
+		223, 286,
+		205, 275,
+		181, 268,
+		158, 268,
+		133, 273,
+		114, 284,
+		97, 303,
+		94, 326,
+		97, 351,
+		111, 376
+	};
+
+	pinballBodies.add(App->physics->CreateChain(0, 0, game_back_ramp_1, 65));
+
 	p2List_item<PhysBody*>* pinballBody;
 	for (pinballBody = pinballBodies.getFirst(); pinballBody; pinballBody = pinballBody->next)
 	{
