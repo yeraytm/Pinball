@@ -25,7 +25,3 @@ Pinball game developed by a group of three students of CITM (Centre de la Imatge
 ## License
 
 This project is licensed under an unmodified MIT license, which is an OSI-certified license that allows static linking with closed source software. Check [LICENSE](LICENSE) for further details.
-
-### Additional Licenses
-The assets' work of this project is licensed under the Creative Commons Attribution 4.0 International License.
-For map assets license, check []() for the artists' work link.
