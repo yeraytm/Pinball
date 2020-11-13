@@ -9,7 +9,7 @@
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	circle = box = rick = NULL;
+	spriteSheet = NULL;
 	ray_on = false;
 	sensed = false;
 }
@@ -25,16 +25,12 @@ bool ModuleSceneIntro::Start()
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
-	circle = App->textures->Load("pinball/wheel.png"); 
-	box = App->textures->Load("pinball/crate.png");
-	rick = App->textures->Load("pinball/rick_head.png");
-	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
-	game_back = App->textures->Load("pinball/game_back.png");
+	spriteSheet = App->textures->Load("pinball/Spritesheet.png");
 
-	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
+	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 30, 30);
 
 	// Pivot 0, 0
-	int game_back[124] = {
+	int boardPoints[124] = {
 		0, 0,
 		406, 0,
 		406, 677,
@@ -99,40 +95,40 @@ bool ModuleSceneIntro::Start()
 		0, 677
 	};
 
-	pinballBodies.add(App->physics->CreateChain(0, 0, game_back, 124));
+	boardParts.add(App->physics->CreateChain(0, 0, boardPoints, 124));
 
 	//// Pivot 0, 0
-	//int game_back_ramp[48] = {
-	//	110, 375,
-	//	83, 390,
-	//	73, 363,
-	//	70, 335,
-	//	76, 305,
-	//	92, 281,
-	//	113, 264,
-	//	145, 252,
-	//	185, 251,
-	//	222, 264,
-	//	253, 290,
-	//	270, 332,
-	//	275, 425,
-	//	257, 425,
-	//	252, 352,
-	//	246, 321,
-	//	236, 299,
-	//	216, 280,
-	//	187, 269,
-	//	149, 269,
-	//	116, 282,
-	//	97, 303,
-	//	93, 329,
-	//	96, 351
-	//};
+	/*int boardRampPoints1[48] = {
+		110, 375,
+		83, 390,
+		73, 363,
+		70, 335,
+		76, 305,
+		92, 281,
+		113, 264,
+		145, 252,
+		185, 251,
+		222, 264,
+		253, 290,
+		270, 332,
+		275, 425,
+		257, 425,
+		252, 352,
+		246, 321,
+		236, 299,
+		216, 280,
+		187, 269,
+		149, 269,
+		116, 282,
+		97, 303,
+		93, 329,
+		96, 351
+	};
 
-	//pinballBodies.add(App->physics->CreateChain(0, 0, game_back_ramp, 48));
+	boardParts.add(App->physics->CreateChain(0, 0, boardRampPoints1, 48));*/
 
 	// Pivot 0, 0
-	int game_back_ramp_1[60] = {
+	/*int boardRampPoints2[60] = {
 		111, 376,
 		97, 351,
 		94, 326,
@@ -165,10 +161,10 @@ bool ModuleSceneIntro::Start()
 		111, 376
 	};
 
-	pinballBodies.add(App->physics->CreateChain(0, 0, game_back_ramp_1, 65));
+	boardParts.add(App->physics->CreateChain(0, 0, boardRampPoints2, 65));*/
 
 	p2List_item<PhysBody*>* pinballBody;
-	for (pinballBody = pinballBodies.getFirst(); pinballBody; pinballBody = pinballBody->next)
+	for (pinballBody = boardParts.getFirst(); pinballBody; pinballBody = pinballBody->next)
 	{
 		pinballBody->data->body->SetType(b2_staticBody);
 	}
@@ -180,10 +176,10 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
-	App->textures->Unload(circle);
-	App->textures->Unload(box);
-	App->textures->Unload(rick);
-	App->textures->Unload(game_back);
+	
+	App->textures->Unload(spriteSheet);
+	//App->textures->Unload(circle);
+
 	return true;
 }
 
@@ -198,7 +194,6 @@ update_status ModuleSceneIntro::Update()
 	}
 
 	// Prepare for raycast ------------------------------------------------------
-	
 	iPoint mouse;
 	mouse.x = App->input->GetMouseX();
 	mouse.y = App->input->GetMouseY();
@@ -207,19 +202,21 @@ update_status ModuleSceneIntro::Update()
 	fVector normal(0.0f, 0.0f);
 
 	// All draw functions ------------------------------------------------------
-	App->renderer->Blit(game_back, 0, 0, NULL, 1.0f);
 
-	p2List_item<PhysBody*>* c = circles.getFirst();
+	SDL_Rect boardRect = { 0, 83, 405, 677 };
+	App->renderer->Blit(spriteSheet, 0, 0, &boardRect, 0.0f);
+
+	/*p2List_item<PhysBody*>* c = pointBalls.getFirst();
 
 	while(c != NULL)
 	{
 		int x, y;
 		c->data->GetPosition(x, y);
-			App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
+			App->renderer->Blit(spriteSheet, x, y, NULL, 1.0f, c->data->GetRotation());
 		c = c->next;
-	}
+	}*/
 
-	c = boxes.getFirst();
+	/*c = boxes.getFirst();
 
 	while(c != NULL)
 	{
@@ -233,17 +230,7 @@ update_status ModuleSceneIntro::Update()
 				ray_hit = hit;
 		}
 		c = c->next;
-	}
-
-	c = ricks.getFirst();
-
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(rick, x, y, NULL, 1.0f, c->data->GetRotation());
-		c = c->next;
-	}
+	}*/
 
 	// ray -----------------
 	if(ray_on == true)
