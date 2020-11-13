@@ -3,6 +3,8 @@
 #include "Globals.h"
 #include "p2Point.h"
 #include "SDL/include/SDL.h"
+#include "Animation.h"
+
 class ModulePlayer : public Module
 {
 public:
@@ -22,5 +24,11 @@ public:
 	uint numLives = 5;
 	bool gameOver = false;
 
-	
+	SDL_Texture* springTex;
+	SDL_Rect springRec;
+	Animation springStrechingDown;
+	Animation springStrechingUp;
+
+	bool strechingDown = false;
+	bool strechingUp = false;
 };
