@@ -234,7 +234,7 @@ b2RevoluteJoint* ModulePhysics::CreateRevoluteJoint(PhysBody* rotationPivot, Phy
 	revolutionDef.enableMotor = true;
 	revolutionDef.motorSpeed = 2;
 	revolutionDef.maxMotorTorque = 400;
-	return (b2RevoluteJoint*)App->physics->CreateJoint(&revolutionDef); //Save joint in a var included in struct of flipper
+	return (b2RevoluteJoint*)App->physics->world->CreateJoint(&revolutionDef); //Save joint in a var included in struct of flipper
 }
 
 
