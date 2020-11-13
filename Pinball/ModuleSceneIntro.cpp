@@ -195,6 +195,44 @@ bool ModuleSceneIntro::Start()
 
 	boardParts.add(App->physics->CreateChain(0, 0, boardCircle, 32));
 
+	// Pivot 0, 0
+	int boardPlatform1[14] = {
+		79, 536,
+		74, 549,
+		74, 563,
+		110, 628,
+		114, 627,
+		123, 618,
+		123, 612
+	};
+
+	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform1, 14));
+
+	// Pivot 0, 0
+	int boardPlatform2[14] = {
+		297, 627,
+		288, 618,
+		288, 612,
+		331, 536,
+		337, 548,
+		336, 563,
+		301, 627
+	};
+
+	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform2, 14));
+
+	// Pivot 0, 0
+	int boardPlatform3[12] = {
+		313, 462,
+		360, 431,
+		366, 435,
+		358, 459,
+		345, 469,
+		317, 469
+	};
+
+	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform3, 12));
+
 	p2List_item<PhysBody*>* pinballBody;
 	for (pinballBody = boardParts.getFirst(); pinballBody; pinballBody = pinballBody->next)
 	{
