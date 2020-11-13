@@ -14,12 +14,12 @@ public:
 	bool CleanUp();
 
 public:
-	p2List<PhysBody*> pBodies;
+
 	PhysBody* ball;
 	SDL_Texture* ballTex;
 	SDL_Rect ballRec;
 	
-	uint numLives = 3;
+	uint numLives = 5;
 	bool gameOver = false;
 
 	

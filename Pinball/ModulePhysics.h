@@ -43,10 +43,12 @@ public:
 	bool CleanUp();
 
 	PhysBody* CreateCircle(int x, int y, int radius);
+	PhysBody* CreateStaticCircle(int x, int y, int radius);
 	PhysBody* CreateRectangle(int x, int y, int width, int height);
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
 	PhysBody* CreateChain(int x, int y, int* points, int size);
-
+	PhysBody* CreatePolygon(int x, int y, int* points, int size);
+	b2RevoluteJoint* CreateRevoluteJoint(PhysBody* rotationPivot, PhysBody* pBody,int anchorBx,int anchorBy,int upperAngleLimit,int lowerAngleLimit);
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
 

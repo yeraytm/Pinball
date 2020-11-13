@@ -6,6 +6,7 @@
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
 #include "ModulePlayer.h"
+#include "ModuleFlipper.h"
 #include "ModulePhysics.h"
 #include "ModuleSceneIntro.h"
 
@@ -19,6 +20,7 @@ Application::Application()
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, true);
 	player = new ModulePlayer(this);
+	flipper = new ModuleFlipper(this);
 	scene_intro = new ModuleSceneIntro(this);
 	physics = new ModulePhysics(this);
 
@@ -39,6 +41,7 @@ Application::Application()
 	
 	// Player
 	AddModule(player);
+	AddModule(flipper);
 }
 
 Application::~Application()

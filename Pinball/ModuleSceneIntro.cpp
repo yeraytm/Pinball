@@ -92,7 +92,7 @@ bool ModuleSceneIntro::Start()
 		39, 511,
 		37, 625,
 		95, 677,
-		0, 677
+		0,677
 	};
 
 	boardParts.add(App->physics->CreateChain(0, 0, boardPoints, 124));
@@ -196,17 +196,16 @@ bool ModuleSceneIntro::Start()
 	boardParts.add(App->physics->CreateChain(0, 0, boardCircle, 32));
 
 	// Pivot 0, 0
-	int boardPlatform1[14] = {
-		79, 536,
-		74, 549,
-		74, 563,
-		110, 628,
-		114, 627,
-		123, 618,
-		123, 612
+	int boardPlatform1[12] = {
+	79, 536,
+	116, 602,
+	102, 612,
+	74, 563,
+	74, 547,
+	76, 540
 	};
 
-	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform1, 14));
+	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform1, 12));
 
 	// Pivot 0, 0
 	int boardPlatform2[14] = {

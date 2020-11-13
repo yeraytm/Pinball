@@ -80,7 +80,28 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 
 	return pbody;
 }
+PhysBody* ModulePhysics::CreateStaticCircle(int x, int y, int radius)
+{
+	b2BodyDef body;
+	body.type = b2_staticBody;
+	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
+	b2Body* b = world->CreateBody(&body);
+
+	b2CircleShape shape;
+	shape.m_radius = PIXEL_TO_METERS(radius);
+	b2FixtureDef fixture;
+	fixture.shape = &shape;
+	fixture.density = 1.0f;
+
+	b->CreateFixture(&fixture);
+
+	PhysBody* pbody = new PhysBody();
+	pbody->body = b;
+	b->SetUserData(pbody);
+	pbody->width = pbody->height = radius;
+	return pbody;
+}
 PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
 {
 	b2BodyDef body;
@@ -157,6 +178,40 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size)
 
 	b->CreateFixture(&fixture);
 
+	delete[] p;
+
+	PhysBody* pbody = new PhysBody();
+	pbody->body = b;
+	b->SetUserData(pbody);
+	pbody->width = pbody->height = 0;
+
+	return pbody;
+}
+PhysBody* ModulePhysics::CreatePolygon(int x, int y, int* points, int size)
+{
+	b2BodyDef body;
+	body.type = b2_dynamicBody;
+	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+
+	b2Body* b = world->CreateBody(&body);
+
+	b2PolygonShape shape;
+	b2Vec2* p = new b2Vec2[size / 2];
+
+	for (uint i = 0; i < size / 2; ++i)
+	{
+		p[i].x = PIXEL_TO_METERS(points[i * 2 + 0]);
+		p[i].y = PIXEL_TO_METERS(points[i * 2 + 1]);
+	}
+
+	shape.Set(p, size / 2);
+
+	b2FixtureDef fixture;
+	fixture.shape = &shape;
+	fixture.density = 1.0f;
+
+	b->CreateFixture(&fixture);
+
 	delete p;
 
 	PhysBody* pbody = new PhysBody();
@@ -166,6 +221,22 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size)
 
 	return pbody;
 }
+b2RevoluteJoint* ModulePhysics::CreateRevoluteJoint(PhysBody* rotationPivot, PhysBody* pBody, int anchorBx, int anchorBy, int upperAngleLimit, int lowerAngleLimit) {
+	b2RevoluteJointDef revolutionDef;
+	revolutionDef.bodyA = rotationPivot->body;
+	revolutionDef.bodyB = pBody->body;
+	revolutionDef.collideConnected = false;
+	revolutionDef.localAnchorA.Set(0, 0);
+	revolutionDef.localAnchorB.Set(PIXEL_TO_METERS(anchorBx), PIXEL_TO_METERS(anchorBy));
+	revolutionDef.enableLimit = true;
+	revolutionDef.upperAngle = upperAngleLimit * DEGTORAD;
+	revolutionDef.lowerAngle = lowerAngleLimit * DEGTORAD;
+	revolutionDef.enableMotor = true;
+	revolutionDef.motorSpeed = 2;
+	revolutionDef.maxMotorTorque = 400;
+	return (b2RevoluteJoint*)App->physics->CreateJoint(&revolutionDef); //Save joint in a var included in struct of flipper
+}
+
 
 // 
 update_status ModulePhysics::PostUpdate()
