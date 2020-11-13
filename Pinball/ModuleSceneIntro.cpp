@@ -202,7 +202,6 @@ update_status ModuleSceneIntro::Update()
 	fVector normal(0.0f, 0.0f);
 
 	// All draw functions ------------------------------------------------------
-
 	SDL_Rect boardRect = { 0, 83, 405, 677 };
 	App->renderer->Blit(spriteSheet, 0, 0, &boardRect, 0.0f);
 
@@ -250,7 +249,5 @@ update_status ModuleSceneIntro::Update()
 
 void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
-	int x, y;
-
 	App->audio->PlayFx(bonus_fx);
 }
