@@ -83,7 +83,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 PhysBody* ModulePhysics::CreateStaticCircle(int x, int y, int radius)
 {
 	b2BodyDef body;
-	body.type = b2_staticBody;
+	//body.type = b2BodyType::b2_staticBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
 	b2Body* b = world->CreateBody(&body);
@@ -92,7 +92,7 @@ PhysBody* ModulePhysics::CreateStaticCircle(int x, int y, int radius)
 	shape.m_radius = PIXEL_TO_METERS(radius);
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
-	fixture.density = 1.0f;
+	fixture.density = 0.0f;
 
 	b->CreateFixture(&fixture);
 
@@ -190,6 +190,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size)
 PhysBody* ModulePhysics::CreatePolygon(int x, int y, int* points, int size)
 {
 	b2BodyDef body;
+	//body.type = b2_staticBody;
 	body.type = b2_dynamicBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
