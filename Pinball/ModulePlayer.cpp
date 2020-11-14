@@ -91,7 +91,7 @@ update_status ModulePlayer::Update()
 	ball->GetPosition(x, y);
 	App->renderer->Blit(ballTex, x, y, &ballRec, 1.0f, ball->GetRotation());
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && strechingDown == false && strechingUp == false)
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && strechingDown == false && strechingUp == false)
 	{
 		strechingDown = true;
 	}
@@ -106,7 +106,7 @@ update_status ModulePlayer::Update()
 			strechingUp = true;
 		}
 	}
-	else if (strechingUp == true && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	else if (strechingUp == true && App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
 		App->renderer->Blit(springTex, 370, 575, &springStrechingDown.GetFrame(6));
 	}
