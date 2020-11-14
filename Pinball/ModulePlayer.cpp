@@ -167,6 +167,10 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	if (bodyB == App->scene_intro->sensor3)
 	{
 		bodyA->pendingToDelete3 = true;
+	}
+
+	if (bodyB == App->scene_intro->sensor4)
+	{
 		alreadyKicked = false;
 	}
 }

@@ -268,6 +268,9 @@ bool ModuleSceneIntro::Start()
 	sensor3 = App->physics->CreateRectangleSensor(SCREEN_WIDTH/2, SCREEN_HEIGHT + 10, SCREEN_WIDTH, 20);
 	sensor3->listener = this;
 
+	sensor4 = App->physics->CreateRectangleSensor(382, 552, 20, 20);
+	sensor4->listener = this;
+
 	return ret;
 }
 

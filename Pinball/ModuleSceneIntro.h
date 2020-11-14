@@ -28,6 +28,7 @@ public:
 	PhysBody* sensor;
 	PhysBody* sensor2;
 	PhysBody* sensor3;
+	PhysBody* sensor4;
 
 	p2List<PhysBody*> pointBalls;
 	p2List<PhysBody*> starBalls;
