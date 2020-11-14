@@ -40,8 +40,9 @@ void ModuleFlipper::CreateLeftFlipper() {
 		57, 44
 	};
 	leftFlipper.pBody = App->physics->CreatePolygon(initialPosLeft.x, initialPosLeft.y, flipperLeftChain, 16);
-	leftFlipper.rotationPivot = App->physics->CreateStaticCircle(initialPosLeft.x-4, initialPosLeft.y-14, 5);
+	leftFlipper.rotationPivot = App->physics->CreateStaticCircle(initialPosLeft.x - 4, initialPosLeft.y - 14, 5);
 	leftFlipper.revoluteJoint = App->physics->CreateRevoluteJoint(leftFlipper.rotationPivot, leftFlipper.pBody, 50,30, 30, -30);
+	leftFlipper.pBody->listener = this;
 }
 void ModuleFlipper::CreateRightFlipper() {
 	// Pivot 0, 0
@@ -56,8 +57,9 @@ void ModuleFlipper::CreateRightFlipper() {
 	};
 
 	rightFlipper.pBody = App->physics->CreatePolygon(initialPosRight.x, initialPosRight.y, flipperRightChain, 12);
-	rightFlipper.rotationPivot = App->physics->CreateStaticCircle(initialPosRight.x+5, initialPosRight.y-14, 5);
+	rightFlipper.rotationPivot = App->physics->CreateStaticCircle(initialPosRight.x + 5, initialPosRight.y - 14, 5);
 	rightFlipper.revoluteJoint = App->physics->CreateRevoluteJoint(rightFlipper.rotationPivot, rightFlipper.pBody, 82, 5, 30, -30);
+	rightFlipper.pBody->listener = this;
 }
 
 

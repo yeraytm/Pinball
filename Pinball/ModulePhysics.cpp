@@ -38,7 +38,6 @@ bool ModulePhysics::Start()
 	return true;
 }
 
-// 
 update_status ModulePhysics::PreUpdate()
 {
 	world->Step(1.0f / 60.0f, 6, 2);
@@ -80,6 +79,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 
 	return pbody;
 }
+
 PhysBody* ModulePhysics::CreateStaticCircle(int x, int y, int radius)
 {
 	b2BodyDef body;
@@ -100,8 +100,10 @@ PhysBody* ModulePhysics::CreateStaticCircle(int x, int y, int radius)
 	pbody->body = b;
 	b->SetUserData(pbody);
 	pbody->width = pbody->height = radius;
+
 	return pbody;
 }
+
 PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
 {
 	b2BodyDef body;
@@ -154,7 +156,7 @@ PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int heig
 	return pbody;
 }
 
-PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size)
+PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, float32 restitution)
 {
 	b2BodyDef body;
 	body.type = b2_dynamicBody;
@@ -175,6 +177,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size)
 
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
+	fixture.restitution = restitution;
 
 	b->CreateFixture(&fixture);
 
@@ -187,6 +190,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size)
 
 	return pbody;
 }
+
 PhysBody* ModulePhysics::CreatePolygon(int x, int y, int* points, int size)
 {
 	b2BodyDef body;
@@ -222,6 +226,7 @@ PhysBody* ModulePhysics::CreatePolygon(int x, int y, int* points, int size)
 
 	return pbody;
 }
+
 b2RevoluteJoint* ModulePhysics::CreateRevoluteJoint(PhysBody* rotationPivot, PhysBody* pBody, int anchorBx, int anchorBy, int upperAngleLimit, int lowerAngleLimit) {
 	b2RevoluteJointDef revolutionDef;
 	revolutionDef.bodyA = rotationPivot->body;
@@ -238,8 +243,6 @@ b2RevoluteJoint* ModulePhysics::CreateRevoluteJoint(PhysBody* rotationPivot, Phy
 	return (b2RevoluteJoint*)App->physics->world->CreateJoint(&revolutionDef); //Save joint in a var included in struct of flipper
 }
 
-
-// 
 update_status ModulePhysics::PostUpdate()
 {
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
@@ -418,7 +421,6 @@ update_status ModulePhysics::PostUpdate()
 
 	return UPDATE_CONTINUE;
 }
-
 
 // Called before quitting
 bool ModulePhysics::CleanUp()

@@ -5,6 +5,7 @@
 #include "ModulePhysics.h"
 #include "ModuleRender.h"
 #include "ModuleInput.h"
+#include "ModuleAudio.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -17,13 +18,17 @@ ModulePlayer::~ModulePlayer()
 bool ModulePlayer::Start()
 {
 	LOG("Loading player");
+
 	ballTex = App->textures->Load("pinball/Spritesheet.png");
-	ballRec = {16,31,18,18};
+	ballRec = { 16, 31, 18, 18 };
+
 	ball = App->physics->CreateCircle(SCREEN_WIDTH-23, SCREEN_HEIGHT/2, 9);
 	ball->body->SetBullet(true);
 	ball->listener = this;
 
 	springTex = App->textures->Load("pinball/spring.png");
+
+	springFx = App->audio->LoadFx("pinball/firstBump.wav");
 
 	for (int i = 0; i < 7; i++)
 	{
@@ -84,6 +89,11 @@ update_status ModulePlayer::Update()
 	{
 		App->renderer->Blit(springTex, 370, 575, &springStrechingDown.GetFrame(0));
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	{
+		App->audio->PlayFx(springFx);
+	}
 	
 	return UPDATE_CONTINUE;
 }
@@ -92,8 +102,10 @@ update_status ModulePlayer::Update()
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
+
 	App->textures->Unload(ballTex);
 	App->textures->Unload(springTex);
+
 	return true;
 }
 

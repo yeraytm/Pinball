@@ -6,12 +6,24 @@
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
+#include "ModuleFlipper.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	spriteSheet = NULL;
 	ray_on = false;
-	sensed = false;
+
+	boardRect = { 0, 83, 405, 677 };
+	boardPortalRect = { 416, 258, 340, 369 };
+
+	blueBallRect = { 646, 5, 37, 37 }; // ball point blue: x = 645 y = 4 w = 37 h = 37
+	orangeBallRect = { 683, 5, 37, 37 }; // ball point orange: x = 682 y = 4 w = 37 h = 37
+
+	starBallRect = { 723, 5, 37, 37 }; // ball star idle: x = 722 y = 4 w = 37 h = 37
+	starBallHitRect = { 760, 5, 37, 37 }; // ball star hit: x = 759 y = 4 w = 37 h = 37
+
+	bigStarBallRect = { 477, 2, 77, 77 }; // big ball star idle: x = 477 y = 2 w = 77 h = 77
+	bigStarBallHitRect = { 557, 2, 77, 77 }; // big ball star hit: x = 557 y = 2 w = 77 h = 77
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -27,7 +39,11 @@ bool ModuleSceneIntro::Start()
 
 	spriteSheet = App->textures->Load("pinball/Spritesheet.png");
 
-	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 30, 30);
+	pointsFx = App->audio->LoadFx("pinball/hitBall.wav");
+	bumpFx = App->audio->LoadFx("pinball/hitBallStar.wav");
+	flipperFx = App->audio->LoadFx("pinball/flipper.wav");
+
+	//sensor = App->physics->CreateRectangleSensor(150, SCREEN_HEIGHT / 2, 30, 30);
 
 	// Pivot 0, 0
 	int boardPoints[124] = {
@@ -229,13 +245,20 @@ bool ModuleSceneIntro::Start()
 		317, 469
 	};
 
-	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform3, 12));
+	// Has Restitution
+	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform3, 12, 1));
 
 	p2List_item<PhysBody*>* pinballBody;
 	for (pinballBody = boardParts.getFirst(); pinballBody; pinballBody = pinballBody->next)
 	{
 		pinballBody->data->body->SetType(b2_staticBody);
 	}
+
+	pointBall = App->physics->CreateStaticCircle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 18);
+	pointBall->listener = this;
+
+	starBall = App->physics->CreateStaticCircle(SCREEN_WIDTH / 2, 400, 18);
+	starBall->listener = this;
 
 	return ret;
 }
@@ -246,7 +269,6 @@ bool ModuleSceneIntro::CleanUp()
 	LOG("Unloading Intro scene");
 	
 	App->textures->Unload(spriteSheet);
-	//App->textures->Unload(circle);
 
 	return true;
 }
@@ -270,18 +292,25 @@ update_status ModuleSceneIntro::Update()
 	fVector normal(0.0f, 0.0f);
 
 	// All draw functions ------------------------------------------------------
-	SDL_Rect boardRect = { 0, 83, 405, 677 };
 	App->renderer->Blit(spriteSheet, 0, 0, &boardRect, 0.0f);
 
 	/*p2List_item<PhysBody*>* c = pointBalls.getFirst();
-
 	while(c != NULL)
 	{
 		int x, y;
 		c->data->GetPosition(x, y);
-			App->renderer->Blit(spriteSheet, x, y, NULL, 1.0f, c->data->GetRotation());
+		SDL_Rect pointsBallRect = { 312, 2, 75, 75 };
+		App->renderer->Blit(spriteSheet, x, y, &pointsBallRect, 1.0f, c->data->GetRotation());
 		c = c->next;
 	}*/
+
+	int x1, y1;
+	pointBall->GetPosition(x1, y1);
+	App->renderer->Blit(spriteSheet, x1, y1, &blueBallRect, 1.0f, pointBall->GetRotation());
+
+	int x2, y2;
+	starBall->GetPosition(x2, y2);
+	App->renderer->Blit(spriteSheet, x2, y2, &starBallRect, 1.0f, starBall->GetRotation());
 
 	/*c = boxes.getFirst();
 
@@ -317,5 +346,19 @@ update_status ModuleSceneIntro::Update()
 
 void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
-	App->audio->PlayFx(bonus_fx);
+	if (bodyA == pointBall) App->audio->PlayFx(pointsFx);
+
+	if (bodyA == starBall)
+	{
+		b2Vec2 force(bodyB->body->GetWorldCenter() - bodyA->body->GetWorldCenter());
+		force *= 7;
+		bodyB->body->ApplyLinearImpulse(force, bodyB->body->GetWorldCenter(), true);
+		App->audio->PlayFx(bumpFx);
+	}
+
+	// TODO: Check flipper audio
+	//if (bodyA == App->flipper->leftFlipper.pBody || bodyA == App->flipper->rightFlipper.pBody)
+	//{
+	//	App->audio->PlayFx(flipperFx);
+	//}
 }

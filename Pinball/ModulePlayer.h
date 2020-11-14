@@ -31,4 +31,6 @@ public:
 
 	bool strechingDown = false;
 	bool strechingUp = false;
+
+	uint springFx;
 };

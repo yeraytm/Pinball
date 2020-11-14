@@ -46,7 +46,7 @@ public:
 	PhysBody* CreateStaticCircle(int x, int y, int radius);
 	PhysBody* CreateRectangle(int x, int y, int width, int height);
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
-	PhysBody* CreateChain(int x, int y, int* points, int size);
+	PhysBody* CreateChain(int x, int y, int* points, int size, float32 restitution = 0);
 	PhysBody* CreatePolygon(int x, int y, int* points, int size);
 	b2RevoluteJoint* CreateRevoluteJoint(PhysBody* rotationPivot, PhysBody* pBody,int anchorBx,int anchorBy,int upperAngleLimit,int lowerAngleLimit);
 	// b2ContactListener ---

@@ -18,27 +18,36 @@ public:
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 
 public:
+	// Scene bodies
 	p2List<PhysBody*> boardParts;
 
 	PhysBody* ball;
+	PhysBody* pointBall;
+	PhysBody* starBall;
 	p2List<PhysBody*> pointBalls;
 	p2List<PhysBody*> starBalls;
 
 	PhysBody* sensor;
-	bool sensed;
 
 	SDL_Texture* spriteSheet;
-	// board: x = 0 y = 83 w = 405 h = 677
-	// portal: x = 416 y = 258 w = 340 h = 369
 
-	// ball: x = 10 y = 25 w = h = 30
+	// Rects to blit
+	SDL_Rect boardRect; // board: x = 0 y = 83 w = 405 h = 677
+	SDL_Rect boardPortalRect; // portal: x = 416 y = 258 w = 340 h = 369
 
-	// ball point blue: x = 312 y = 2 w = 75 h = 75
-	// ball point orange: x = 393 y = 2 w = 75 h = 75
-	// ball star idle: x = 477 y = 2 w = 75 h = 75
-	// ball star hit: x = 558 y = 2 w = 75 h = 75
+	SDL_Rect blueBallRect; // ball point blue: x = 645 y = 4 w = 37 h = 37
+	SDL_Rect orangeBallRect; // ball point orange: x = 682 y = 4 w = 37 h = 37
 
-	uint bonus_fx;
+	SDL_Rect starBallRect; // ball star idle: x = 722 y = 4 w = 37 h = 37
+	SDL_Rect starBallHitRect; // ball star hit: x = 759 y = 4 w = 37 h = 37
+
+	SDL_Rect bigStarBallRect; // big ball star idle: x = 477 y = 2 w = 77 h = 77
+	SDL_Rect bigStarBallHitRect; // big ball star hit: x = 557 y = 2 w = 77 h = 77
+
+	uint pointsFx;
+	uint bumpFx;
+	uint flipperFx;
+
 	p2Point<int> ray;
 	bool ray_on;
 };
