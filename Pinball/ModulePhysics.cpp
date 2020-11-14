@@ -12,6 +12,11 @@
 #pragma comment( lib, "Box2D/libx86/Release/Box2D.lib" )
 #endif
 
+PhysBody::~PhysBody()
+{
+	body->GetWorld()->DestroyBody(body);
+}
+
 ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	world = NULL;

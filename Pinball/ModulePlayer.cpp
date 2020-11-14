@@ -6,10 +6,10 @@
 #include "ModuleRender.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
+#include "ModuleSceneIntro.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
-{
-}
+{}
 
 ModulePlayer::~ModulePlayer()
 {}
@@ -48,6 +48,47 @@ bool ModulePlayer::Start()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
+	if (ball != nullptr && ball->pendingToDelete == true)
+	{
+		ball->pendingToDelete = false;
+		delete ball;
+		ball = nullptr;
+
+		ball = App->physics->CreateCircle(65, 455, 9);
+		ball->body->SetBullet(true);
+		ball->listener = this;
+
+		b2Vec2 force;
+		force.Set(5, -5);
+		ball->body->ApplyForceToCenter(force, true);
+	}
+
+	if (ball != nullptr && ball->pendingToDelete2 == true)
+	{
+		ball->pendingToDelete2 = false;
+		delete ball;
+		ball = nullptr;
+
+		ball = App->physics->CreateCircle(310, 520, 9);
+		ball->body->SetBullet(true);
+		ball->listener = this;
+
+		b2Vec2 force;
+		force.Set(-5, -5);
+		ball->body->ApplyForceToCenter(force, true);
+	}
+
+	if (ball != nullptr && ball->pendingToDelete3 == true)
+	{
+		ball->pendingToDelete3 = false;
+		delete ball;
+		ball = nullptr;
+
+		ball = App->physics->CreateCircle(SCREEN_WIDTH - 23, SCREEN_HEIGHT / 2, 9);
+		ball->body->SetBullet(true);
+		ball->listener = this;
+	}
+
 	int x, y;
 	ball->GetPosition(x, y);
 	App->renderer->Blit(ballTex, x, y, &ballRec, 1.0f, ball->GetRotation());
@@ -109,3 +150,20 @@ bool ModulePlayer::CleanUp()
 	return true;
 }
 
+void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
+{
+	if (bodyB == App->scene_intro->sensor)
+	{
+		bodyA->pendingToDelete = true;
+	}
+
+	if (bodyB == App->scene_intro->sensor2)
+	{
+		bodyA->pendingToDelete2 = true;
+	}
+
+	if (bodyB == App->scene_intro->sensor3)
+	{
+		bodyA->pendingToDelete3 = true;
+	}
+}

@@ -24,10 +24,13 @@ public:
 	PhysBody* ball;
 	PhysBody* pointBall;
 	PhysBody* starBall;
-	p2List<PhysBody*> pointBalls;
-	p2List<PhysBody*> starBalls;
 
 	PhysBody* sensor;
+	PhysBody* sensor2;
+	PhysBody* sensor3;
+
+	p2List<PhysBody*> pointBalls;
+	p2List<PhysBody*> starBalls;
 
 	SDL_Texture* spriteSheet;
 

@@ -7,6 +7,7 @@
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
 #include "ModuleFlipper.h"
+#include "ModulePlayer.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -42,8 +43,6 @@ bool ModuleSceneIntro::Start()
 	pointsFx = App->audio->LoadFx("pinball/hitBall.wav");
 	bumpFx = App->audio->LoadFx("pinball/hitBallStar.wav");
 	flipperFx = App->audio->LoadFx("pinball/flipper.wav");
-
-	//sensor = App->physics->CreateRectangleSensor(150, SCREEN_HEIGHT / 2, 30, 30);
 
 	// Pivot 0, 0
 	int boardPoints[124] = {
@@ -260,6 +259,15 @@ bool ModuleSceneIntro::Start()
 	starBall = App->physics->CreateStaticCircle(SCREEN_WIDTH / 2, 400, 18);
 	starBall->listener = this;
 
+	sensor = App->physics->CreateRectangleSensor(73, 163, 15, 15);
+	sensor->listener = this;
+
+	sensor2 = App->physics->CreateRectangleSensor(307, 227, 15, 15);
+	sensor2->listener = this;
+
+	sensor3 = App->physics->CreateRectangleSensor(100,600,10,10);
+	sensor3->listener = this;
+
 	return ret;
 }
 
@@ -293,6 +301,7 @@ update_status ModuleSceneIntro::Update()
 
 	// All draw functions ------------------------------------------------------
 	App->renderer->Blit(spriteSheet, 0, 0, &boardRect, 0.0f);
+	App->renderer->Blit(spriteSheet, 20, 173, &boardPortalRect, 0.0f);
 
 	/*p2List_item<PhysBody*>* c = pointBalls.getFirst();
 	while(c != NULL)
