@@ -7,6 +7,7 @@
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
 #include "ModuleSceneIntro.h"
+#include "ModuleFlipper.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -41,7 +42,7 @@ bool ModulePlayer::Start()
 		springStrechingUp.PushBack({ 20 * i, 0, 20, 64 });
 	}
 	springStrechingUp.speed = 0.5f;
-	lives = 5;
+	lifes = 5;
 	return true;
 }
 
@@ -165,8 +166,8 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	if (bodyB == App->scene_intro->sensor3)
 	{
 		bodyA->pendingToDelete3 = true;
-		if (lives > 1) {
-			--lives;
+		if (lifes > 1) {
+			--lifes;
 		}
 		else {
 
@@ -177,6 +178,10 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	if (bodyB == App->scene_intro->sensor4)
 	{
 		alreadyKicked = false;
-		
+	}
+
+	if (bodyB == App->flipper->leftFlipper.pBody || bodyB == App->flipper->leftFlipper.pBody)
+	{
+
 	}
 }

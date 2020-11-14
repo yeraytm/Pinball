@@ -23,7 +23,7 @@ update_status ModuleHUD::Update()
 	App->fonts->BlitText(90,12,font,"Score:");
 	App->fonts->BlitText(100,30,font,std::to_string(App->scene_intro->GetScore()).c_str());	
 	App->fonts->BlitText(250,14,font,"Lifes:");
-	App->fonts->BlitText(265, 30, font, std::to_string(App->player->GetLives()).c_str());
+	App->fonts->BlitText(265, 30, font, std::to_string(App->player->GetLifes()).c_str());
 	return ret;
 }
 bool ModuleHUD::CleanUp() 

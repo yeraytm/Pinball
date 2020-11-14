@@ -6,7 +6,6 @@
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
-#include "ModuleFlipper.h"
 #include "ModulePlayer.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -260,10 +259,10 @@ bool ModuleSceneIntro::Start()
 		pinballBody->data->body->SetType(b2_staticBody);
 	}
 
-	pointBall1 = App->physics->CreateStaticCircle(238, 160, 18);
+	pointBall1 = App->physics->CreateCircleSensor(238, 160, 18);
 	pointBall1->listener = this;
 
-	pointBall2 = App->physics->CreateStaticCircle(315, 335, 18);
+	pointBall2 = App->physics->CreateCircleSensor(315, 335, 18);
 	pointBall2->listener = this;
 
 	starBall1 = App->physics->CreateStaticCircle(SCREEN_WIDTH / 2, 215, 18);
@@ -288,7 +287,9 @@ bool ModuleSceneIntro::Start()
 
 	sensor4 = App->physics->CreateRectangleSensor(382, 556, 1, 1);
 	sensor4->listener = this;
+
 	if (score > highScore) { highScore = score; }
+
 	return ret;
 }
 
@@ -389,10 +390,4 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		App->audio->PlayFx(bumpFx);
 		score += 10;
 	}
-
-	// TODO: Check flipper audio
-	//if (bodyA == App->flipper->leftFlipper.pBody || bodyA == App->flipper->rightFlipper.pBody)
-	//{
-	//	App->audio->PlayFx(flipperFx);
-	//}
 }

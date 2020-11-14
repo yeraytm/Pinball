@@ -14,7 +14,7 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-	uint GetLives() { return lives; }
+	uint GetLifes() { return lifes; }
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 
 public:
@@ -34,6 +34,6 @@ public:
 	bool strechingDown = false;
 	bool strechingUp = false;
 	bool alreadyKicked = true;
-	uint lives;
+	uint lifes;
 	uint springFx;
 };
