@@ -51,42 +51,40 @@ update_status ModulePlayer::Update()
 	if (ball != nullptr && ball->pendingToDelete == true)
 	{
 		ball->pendingToDelete = false;
-		delete ball;
-		ball = nullptr;
 
-		ball = App->physics->CreateCircle(65, 455, 9);
-		ball->body->SetBullet(true);
-		ball->listener = this;
+		b2Vec2 position;
+		position.Set(PIXEL_TO_METERS(65.0f), PIXEL_TO_METERS(455.0f));
+		ball->body->SetTransform(position, ball->GetRotation());
 
-		b2Vec2 force;
-		force.Set(5, -5);
-		ball->body->ApplyForceToCenter(force, true);
+		b2Vec2 velocity;
+		velocity.Set(1.0f, 1.0f);
+		ball->body->SetLinearVelocity(velocity);
 	}
 
 	if (ball != nullptr && ball->pendingToDelete2 == true)
 	{
 		ball->pendingToDelete2 = false;
-		delete ball;
-		ball = nullptr;
 
-		ball = App->physics->CreateCircle(310, 520, 9);
-		ball->body->SetBullet(true);
-		ball->listener = this;
+		b2Vec2 position;
+		position.Set(PIXEL_TO_METERS(310.0f), PIXEL_TO_METERS(520.0f));
+		ball->body->SetTransform(position, ball->GetRotation());
 
-		b2Vec2 force;
-		force.Set(-5, -5);
-		ball->body->ApplyForceToCenter(force, true);
+		b2Vec2 velocity;
+		velocity.Set(-1.0f, 1.0f);
+		ball->body->SetLinearVelocity(velocity);
 	}
 
 	if (ball != nullptr && ball->pendingToDelete3 == true)
 	{
 		ball->pendingToDelete3 = false;
-		delete ball;
-		ball = nullptr;
 
-		ball = App->physics->CreateCircle(SCREEN_WIDTH - 23, SCREEN_HEIGHT / 2, 9);
-		ball->body->SetBullet(true);
-		ball->listener = this;
+		b2Vec2 position;
+		position.Set(PIXEL_TO_METERS(float(SCREEN_WIDTH - 23)), PIXEL_TO_METERS(float(SCREEN_HEIGHT / 2)));
+		ball->body->SetTransform(position, ball->GetRotation());
+
+		b2Vec2 velocity;
+		velocity.Set(1.0f, 1.0f);
+		ball->body->SetLinearVelocity(velocity);
 	}
 
 	int x, y;
@@ -122,7 +120,7 @@ update_status ModulePlayer::Update()
 			{
 				alreadyKicked = true;
 				b2Vec2 force;
-				force.Set(0, -70);
+				force.Set(0, -80);
 				ball->body->ApplyForceToCenter(force, true);
 			}
 		}
