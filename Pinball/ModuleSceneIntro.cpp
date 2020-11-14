@@ -7,6 +7,8 @@
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
 #include "ModulePlayer.h"
+#include "ModuleFlipper.h"
+#include "ModuleHUD.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -24,7 +26,6 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 
 	bigStarBallRect = { 477, 2, 77, 77 }; // big ball star idle: x = 477 y = 2 w = 77 h = 77
 	bigStarBallHitRect = { 557, 2, 77, 77 }; // big ball star hit: x = 557 y = 2 w = 77 h = 77
-	score = 0;
 	highScore = 0;
 }
 
@@ -36,7 +37,10 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-
+	App->physics->Enable();
+	App->player->Enable();
+	App->flipper->Enable();
+	App->hud->Enable();
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	spriteSheet = App->textures->Load("pinball/Spritesheet.png");
@@ -44,7 +48,7 @@ bool ModuleSceneIntro::Start()
 	pointsFx = App->audio->LoadFx("pinball/hitBall.wav");
 	bumpFx = App->audio->LoadFx("pinball/hitBallStar.wav");
 	flipperFx = App->audio->LoadFx("pinball/flipper.wav");
-
+	score = 0;
 	// Pivot 0, 0
 	int boardPoints[124] = {
 		0, 0,
@@ -288,7 +292,7 @@ bool ModuleSceneIntro::Start()
 	sensor4 = App->physics->CreateRectangleSensor(382, 556, 1, 1);
 	sensor4->listener = this;
 
-	if (score > highScore) { highScore = score; }
+	
 
 	return ret;
 }
@@ -299,13 +303,20 @@ bool ModuleSceneIntro::CleanUp()
 	LOG("Unloading Intro scene");
 	
 	App->textures->Unload(spriteSheet);
-	score = 0;
+	App->player->Disable();
+	App->flipper->Disable();
+	App->hud->Disable();
+
+	App->physics->Disable();
 	return true;
 }
 
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
+	if (score > highScore) {
+		highScore = score;
+	}
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		ray_on = !ray_on;

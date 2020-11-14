@@ -8,6 +8,7 @@
 #include "ModuleAudio.h"
 #include "ModuleSceneIntro.h"
 #include "ModuleFlipper.h"
+#include "ModuleFadeToBlack.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -170,7 +171,7 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			--lifes;
 		}
 		else {
-
+			App->fade_to_black->FadeToBlack((Module*)App->scene_intro, (Module*)App->ending_screen, 100);
 		}
 		
 	}
