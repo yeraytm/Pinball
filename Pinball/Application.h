@@ -15,6 +15,9 @@ class ModuleSceneIntro;
 class ModulePhysics;
 class ModuleFonts;
 class ModuleHUD;
+class ModuleFadeToBlack;
+class ModuleTitleScreen;
+class ModuleEndingScreen;
 
 class Application
 {
@@ -30,6 +33,9 @@ public:
 	ModulePhysics* physics;
 	ModuleFonts* fonts;
 	ModuleHUD* hud;
+	ModuleFadeToBlack* fade_to_black;
+	ModuleTitleScreen* title_screen;
+	ModuleEndingScreen* ending_screen;
 private:
 
 	p2List<Module*> list_modules;

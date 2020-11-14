@@ -68,6 +68,15 @@
     <ClInclude Include="ModuleHUD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleFadeToBlack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleTitleScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleEndingScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -110,6 +119,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ModuleHUD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleFadeToBlack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleTitleScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleEndingScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

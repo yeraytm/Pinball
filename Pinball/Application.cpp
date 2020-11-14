@@ -11,6 +11,9 @@
 #include "ModuleSceneIntro.h"
 #include "ModuleFonts.h"
 #include "ModuleHUD.h"
+#include "ModuleFadeToBlack.h"
+#include "ModuleTitleScreen.h"
+#include "ModuleEndingScreen.h"
 
 #include "Application.h"
 
@@ -22,11 +25,14 @@ Application::Application()
 	input = new ModuleInput(this);
 	fonts = new ModuleFonts(this);
 	audio = new ModuleAudio(this);
-	player = new ModulePlayer(this);
-	flipper = new ModuleFlipper(this);
-	scene_intro = new ModuleSceneIntro(this);
+	player = new ModulePlayer(this, false);
+	flipper = new ModuleFlipper(this, false);
+	scene_intro = new ModuleSceneIntro(this, false);
+	fade_to_black = new ModuleFadeToBlack(this);
+	title_screen = new ModuleTitleScreen(this);
+	ending_screen = new ModuleEndingScreen(this, false);
 	
-	hud = new ModuleHUD(this);
+	hud = new ModuleHUD(this, false);
 	physics = new ModulePhysics(this);
 
 	// The order of calls is very important!
@@ -36,19 +42,24 @@ Application::Application()
 	// Main Modules
 	AddModule(window);
 	AddModule(physics);
-	AddModule(renderer);
 	AddModule(textures);
 	AddModule(input);
 	AddModule(audio);
 	AddModule(fonts);
+
 	// Scenes
+	AddModule(title_screen);
 	AddModule(scene_intro);
+	AddModule(ending_screen);
 	
 	AddModule(hud);
+	AddModule(fade_to_black);
 	
 	// Player
 	AddModule(player);
 	AddModule(flipper);
+
+	AddModule(renderer);
 }
 
 Application::~Application()
