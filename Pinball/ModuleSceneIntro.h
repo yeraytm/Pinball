@@ -3,9 +3,8 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "Globals.h"
-
+#include "SDL/include/SDL_Rect.h"
 class PhysBody;
-
 class ModuleSceneIntro : public Module
 {
 public:
@@ -16,7 +15,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
-
+	uint GetScore() { return score; }
+	int GetHighScore() { return highScore; }
 public:
 	// Scene bodies
 	p2List<PhysBody*> boardParts;
@@ -53,7 +53,7 @@ public:
 	uint pointsFx;
 	uint bumpFx;
 	uint flipperFx;
-
+	uint score,highScore;
 	p2Point<int> ray;
 	bool ray_on;
 };

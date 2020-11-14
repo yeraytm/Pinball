@@ -25,6 +25,8 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 
 	bigStarBallRect = { 477, 2, 77, 77 }; // big ball star idle: x = 477 y = 2 w = 77 h = 77
 	bigStarBallHitRect = { 557, 2, 77, 77 }; // big ball star hit: x = 557 y = 2 w = 77 h = 77
+	score = 0;
+	highScore = 0;
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -286,7 +288,7 @@ bool ModuleSceneIntro::Start()
 
 	sensor4 = App->physics->CreateRectangleSensor(382, 556, 1, 1);
 	sensor4->listener = this;
-
+	if (score > highScore) { highScore = score; }
 	return ret;
 }
 
@@ -296,7 +298,7 @@ bool ModuleSceneIntro::CleanUp()
 	LOG("Unloading Intro scene");
 	
 	App->textures->Unload(spriteSheet);
-
+	score = 0;
 	return true;
 }
 
@@ -376,6 +378,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	if (bodyA == pointBall1 || bodyA == pointBall2)
 	{
 		App->audio->PlayFx(pointsFx);
+		score += 10;
 	}
 
 	if (bodyA == starBall1 || bodyA == starBall2 || bodyA == starBall3 || bodyA == starBall4)
@@ -384,6 +387,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		force *= 4;
 		bodyB->body->ApplyLinearImpulse(force, bodyB->body->GetWorldCenter(), true);
 		App->audio->PlayFx(bumpFx);
+		score += 10;
 	}
 
 	// TODO: Check flipper audio

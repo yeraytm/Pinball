@@ -21,7 +21,7 @@ Application::Application()
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
 	fonts = new ModuleFonts(this);
-	audio = new ModuleAudio(this, true);
+	audio = new ModuleAudio(this);
 	player = new ModulePlayer(this);
 	flipper = new ModuleFlipper(this);
 	scene_intro = new ModuleSceneIntro(this);

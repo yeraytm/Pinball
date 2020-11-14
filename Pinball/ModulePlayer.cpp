@@ -41,7 +41,7 @@ bool ModulePlayer::Start()
 		springStrechingUp.PushBack({ 20 * i, 0, 20, 64 });
 	}
 	springStrechingUp.speed = 0.5f;
-
+	lives = 5;
 	return true;
 }
 
@@ -131,7 +131,7 @@ update_status ModulePlayer::Update()
 		App->renderer->Blit(springTex, 370, 575, &springStrechingDown.GetFrame(0));
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP)
 	{
 		App->audio->PlayFx(springFx);
 	}
@@ -165,10 +165,18 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	if (bodyB == App->scene_intro->sensor3)
 	{
 		bodyA->pendingToDelete3 = true;
+		if (lives > 1) {
+			--lives;
+		}
+		else {
+
+		}
+		
 	}
 
 	if (bodyB == App->scene_intro->sensor4)
 	{
 		alreadyKicked = false;
+		
 	}
 }

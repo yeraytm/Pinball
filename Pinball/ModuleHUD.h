@@ -10,7 +10,7 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-	char lookupTable[90] = {"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890.,;:$#'! /?%&()@          "};
+	char lookupTable[99] = {"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,;:$#'! /?%&()@          "};
 	int font = -1;
 
 };
