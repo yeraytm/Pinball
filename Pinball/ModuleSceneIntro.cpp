@@ -224,7 +224,8 @@ bool ModuleSceneIntro::Start()
 	76, 540
 	};
 
-	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform1, 12));
+	// Has Restitution
+	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform1, 12, 1));
 
 	// Pivot 0, 0
 	int boardPlatform2[10] = {
@@ -235,7 +236,8 @@ bool ModuleSceneIntro::Start()
 		297, 599,
 	};
 
-	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform2, 10));
+	// Has Restitution
+	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform2, 10, 1));
 
 	// Pivot 0, 0
 	int boardPlatform3[12] = {
@@ -256,11 +258,22 @@ bool ModuleSceneIntro::Start()
 		pinballBody->data->body->SetType(b2_staticBody);
 	}
 
-	pointBall = App->physics->CreateStaticCircle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 18);
-	pointBall->listener = this;
+	pointBall1 = App->physics->CreateStaticCircle(238, 160, 18);
+	pointBall1->listener = this;
 
-	starBall = App->physics->CreateStaticCircle(SCREEN_WIDTH / 2, 400, 18);
-	starBall->listener = this;
+	pointBall2 = App->physics->CreateStaticCircle(315, 335, 18);
+	pointBall2->listener = this;
+
+	starBall1 = App->physics->CreateStaticCircle(SCREEN_WIDTH / 2, 215, 18);
+	starBall1->listener = this;
+
+	starBall2 = App->physics->CreateStaticCircle(310, 130, 18);
+	starBall2->listener = this;
+
+	starBall3 = App->physics->CreateStaticCircle(180, 490, 18);
+	starBall3->listener = this;
+
+	//starBall4 = App->physics->CreateStaticCircle()
 
 	sensor = App->physics->CreateRectangleSensor(73, 163, 20, 20);
 	sensor->listener = this;
@@ -271,7 +284,7 @@ bool ModuleSceneIntro::Start()
 	sensor3 = App->physics->CreateRectangleSensor(SCREEN_WIDTH/2, SCREEN_HEIGHT + 10, SCREEN_WIDTH, 20);
 	sensor3->listener = this;
 
-	sensor4 = App->physics->CreateRectangleSensor(382, 552, 20, 20);
+	sensor4 = App->physics->CreateRectangleSensor(382, 556, 1, 1);
 	sensor4->listener = this;
 
 	return ret;
@@ -319,13 +332,12 @@ update_status ModuleSceneIntro::Update()
 		c = c->next;
 	}*/
 
-	int x1, y1;
-	pointBall->GetPosition(x1, y1);
-	App->renderer->Blit(spriteSheet, x1, y1, &blueBallRect, 1.0f, pointBall->GetRotation());
+	App->renderer->Blit(spriteSheet, pointBall1->GetPosX(), pointBall1->GetPosY(), &blueBallRect, 1.0f, pointBall1->GetRotation());
+	App->renderer->Blit(spriteSheet, pointBall2->GetPosX(), pointBall2->GetPosY(), &blueBallRect, 1.0f, pointBall2->GetRotation());
 
-	int x2, y2;
-	starBall->GetPosition(x2, y2);
-	App->renderer->Blit(spriteSheet, x2, y2, &starBallRect, 1.0f, starBall->GetRotation());
+	App->renderer->Blit(spriteSheet, starBall1->GetPosX(), starBall1->GetPosY(), &starBallRect, 1.0f, starBall1->GetRotation());
+	App->renderer->Blit(spriteSheet, starBall2->GetPosX(), starBall2->GetPosY(), &starBallRect, 1.0f, starBall2->GetRotation());
+	App->renderer->Blit(spriteSheet, starBall3->GetPosX(), starBall3->GetPosY(), &starBallRect, 1.0f, starBall3->GetRotation());
 
 	/*c = boxes.getFirst();
 
@@ -361,12 +373,15 @@ update_status ModuleSceneIntro::Update()
 
 void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
-	if (bodyA == pointBall) App->audio->PlayFx(pointsFx);
+	if (bodyA == pointBall1 || bodyA == pointBall2)
+	{
+		App->audio->PlayFx(pointsFx);
+	}
 
-	if (bodyA == starBall)
+	if (bodyA == starBall1 || bodyA == starBall2 || bodyA == starBall3 || bodyA == starBall4)
 	{
 		b2Vec2 force(bodyB->body->GetWorldCenter() - bodyA->body->GetWorldCenter());
-		force *= 7;
+		force *= 4;
 		bodyB->body->ApplyLinearImpulse(force, bodyB->body->GetWorldCenter(), true);
 		App->audio->PlayFx(bumpFx);
 	}

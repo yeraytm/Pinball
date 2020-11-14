@@ -21,17 +21,19 @@ public:
 	// Scene bodies
 	p2List<PhysBody*> boardParts;
 
-	PhysBody* ball;
-	PhysBody* pointBall;
-	PhysBody* starBall;
+	PhysBody* pointBall1;
+	PhysBody* pointBall2;
+
+	PhysBody* starBall1;
+	PhysBody* starBall2;
+	PhysBody* starBall3;
+	PhysBody* starBall4;
+	//PhysBody* starBall5;
 
 	PhysBody* sensor;
 	PhysBody* sensor2;
 	PhysBody* sensor3;
 	PhysBody* sensor4;
-
-	p2List<PhysBody*> pointBalls;
-	p2List<PhysBody*> starBalls;
 
 	SDL_Texture* spriteSheet;
 
