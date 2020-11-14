@@ -13,6 +13,8 @@ class ModulePlayer;
 class ModuleFlipper;
 class ModuleSceneIntro;
 class ModulePhysics;
+class ModuleFonts;
+class ModuleHUD;
 
 class Application
 {
@@ -26,7 +28,8 @@ public:
 	ModuleFlipper* flipper;
 	ModuleSceneIntro* scene_intro;
 	ModulePhysics* physics;
-
+	ModuleFonts* fonts;
+	ModuleHUD* hud;
 private:
 
 	p2List<Module*> list_modules;

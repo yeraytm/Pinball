@@ -9,6 +9,8 @@
 #include "ModuleFlipper.h"
 #include "ModulePhysics.h"
 #include "ModuleSceneIntro.h"
+#include "ModuleFonts.h"
+#include "ModuleHUD.h"
 
 #include "Application.h"
 
@@ -18,10 +20,13 @@ Application::Application()
 	window = new ModuleWindow(this);
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
+	fonts = new ModuleFonts(this);
 	audio = new ModuleAudio(this, true);
 	player = new ModulePlayer(this);
 	flipper = new ModuleFlipper(this);
 	scene_intro = new ModuleSceneIntro(this);
+	
+	hud = new ModuleHUD(this);
 	physics = new ModulePhysics(this);
 
 	// The order of calls is very important!
@@ -35,9 +40,11 @@ Application::Application()
 	AddModule(textures);
 	AddModule(input);
 	AddModule(audio);
-	
+	AddModule(fonts);
 	// Scenes
 	AddModule(scene_intro);
+	
+	AddModule(hud);
 	
 	// Player
 	AddModule(player);
