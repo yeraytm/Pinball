@@ -259,13 +259,13 @@ bool ModuleSceneIntro::Start()
 	starBall = App->physics->CreateStaticCircle(SCREEN_WIDTH / 2, 400, 18);
 	starBall->listener = this;
 
-	sensor = App->physics->CreateRectangleSensor(73, 163, 15, 15);
+	sensor = App->physics->CreateRectangleSensor(73, 163, 20, 20);
 	sensor->listener = this;
 
-	sensor2 = App->physics->CreateRectangleSensor(307, 227, 15, 15);
+	sensor2 = App->physics->CreateRectangleSensor(307, 227, 20, 20);
 	sensor2->listener = this;
 
-	sensor3 = App->physics->CreateRectangleSensor(100,600,10,10);
+	sensor3 = App->physics->CreateRectangleSensor(SCREEN_WIDTH/2, SCREEN_HEIGHT + 10, SCREEN_WIDTH, 20);
 	sensor3->listener = this;
 
 	return ret;

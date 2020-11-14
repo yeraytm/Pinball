@@ -103,6 +103,7 @@ update_status ModulePlayer::Update()
 		App->renderer->Blit(springTex, 370, 575, &springStrechingDown.GetCurrentFrame());
 		if (&springStrechingDown.GetCurrentFrame() == &springStrechingDown.GetFrame(6))
 		{
+			springStrechingDown.Reset();
 			strechingDown = false;
 			strechingUp = true;
 		}
@@ -113,16 +114,17 @@ update_status ModulePlayer::Update()
 	}
 	else if (strechingUp == true)
 	{
+		App->renderer->Blit(springTex, 370, 575, &springStrechingUp.GetCurrentFrame());
 		if (&springStrechingUp.GetCurrentFrame() == &springStrechingUp.GetFrame(5))
 		{
 			strechingUp = false;
-			b2Vec2 force;
-			force.Set(0, -70);
-			ball->body->ApplyForceToCenter(force, true);
-		}
-		else
-		{
-			App->renderer->Blit(springTex, 370, 575, &springStrechingUp.GetCurrentFrame());
+			if (alreadyKicked == false)
+			{
+				alreadyKicked = true;
+				b2Vec2 force;
+				force.Set(0, -70);
+				ball->body->ApplyForceToCenter(force, true);
+			}
 		}
 	}
 
@@ -165,5 +167,6 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	if (bodyB == App->scene_intro->sensor3)
 	{
 		bodyA->pendingToDelete3 = true;
+		alreadyKicked = false;
 	}
 }

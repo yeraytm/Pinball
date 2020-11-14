@@ -33,6 +33,7 @@ public:
 
 	bool strechingDown = false;
 	bool strechingUp = false;
+	bool alreadyKicked = false;
 
 	uint springFx;
 };
