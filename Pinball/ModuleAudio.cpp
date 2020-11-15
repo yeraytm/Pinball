@@ -6,7 +6,7 @@
 
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
 
-ModuleAudio::ModuleAudio(Application* app, bool start_enabled) : Module(app, start_enabled), music(NULL) {}
+ModuleAudio::ModuleAudio(Application* app, bool start_enabled) : Module(app, start_enabled), music(NULL), volume(128) {}
 
 // Destructor
 ModuleAudio::~ModuleAudio() {}
@@ -51,20 +51,6 @@ bool ModuleAudio::StopMusic()
 	music = nullptr;
 	Mix_HaltMusic();
 	return true;
-}
-
-bool ModuleAudio::UnloadFx(uint index)
-{
-	bool ret = false;
-
-	Mix_Chunk* chunk = NULL;
-
-	if (fx.at(index - 1, chunk) == true)
-	{
-		Mix_FreeChunk(chunk);
-		ret = true;
-	}
-	return ret;
 }
 
 // Called before quitting
@@ -185,4 +171,19 @@ bool ModuleAudio::PlayFx(unsigned int id, int repeat)
 	}
 
 	return ret;
+}
+
+// Methods to control the volume
+bool ModuleAudio::VolumeChange(int volume)
+{
+	VolumeLimiter();
+	Mix_VolumeMusic(volume);
+
+	return true;
+}
+
+void ModuleAudio::VolumeLimiter()
+{
+	if (volume < 0) volume = 0;
+	else if (volume > MIX_MAX_VOLUME) volume = MIX_MAX_VOLUME;
 }

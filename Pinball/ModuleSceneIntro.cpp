@@ -62,6 +62,8 @@ bool ModuleSceneIntro::Start()
 	oneUpFx = App->audio->LoadFx("pinball/audio/1-up.wav");
 	springFx = App->audio->LoadFx("pinball/audio/firstBump.wav");
 
+	App->audio->PlayMusic("pinball/audio/background_music.ogg");
+
 	// Setting spring animations rects
 	for (int i = 0; i < 7; i++)
 	{
@@ -342,6 +344,8 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
+
+	App->audio->StopMusic();
 	
 	// Unloading textures
 	App->textures->Unload(boardTex);
@@ -394,6 +398,25 @@ update_status ModuleSceneIntro::Update()
 	// All draw functions ------------------------------------------------------
 	App->renderer->Blit(boardTex, 0, 0, &boardRect, 0.0f);
 	App->renderer->Blit(portalTex, 0, 0, &portalRect, 0.0f);
+
+	// Change volume with +/- from the numeric keyboard
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) // SDL_SCANCODE_KP_PLUS
+	{
+		App->audio->volume += 16;
+		App->audio->VolumeChange(App->audio->volume);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN) // SDL_SCANCODE_KP_MINUS
+	{
+		App->audio->volume -= 16;
+		App->audio->VolumeChange(App->audio->volume);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	{
+		App->audio->volume = 0;
+		App->audio->VolumeChange(App->audio->volume);
+	}
 
 	// Handling spring
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && strechingDown == false && strechingUp == false)
@@ -499,8 +522,11 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		if (pointBall->hit && pointBall2->hit && pointBall3->hit && pointBall4->hit)
 		{
-			++App->player->lifes;
-			App->audio->PlayFx(oneUpFx);
+			if (App->player->lifes <= 4)
+			{
+				++App->player->lifes;
+				App->audio->PlayFx(oneUpFx);
+			}
 		}
 
 		App->audio->PlayFx(pointsFx);

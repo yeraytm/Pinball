@@ -6,7 +6,7 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "Globals.h"
-#include "SDL/include/SDL_Rect.h"
+#include "SDL/include/SDL.h"
 
 #include "Animation.h"
 
