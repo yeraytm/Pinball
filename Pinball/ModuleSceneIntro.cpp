@@ -61,8 +61,9 @@ bool ModuleSceneIntro::Start()
 	App->fonts->Enable();
 	App->hud->Enable();
 	App->player->Enable();
-	App->flipper->Enable();
 	App->audio->Enable();
+	App->flipper->Enable();
+
 
 	// Loading textures
 	boardTex = App->textures->Load("pinball/graphics/board.png");
