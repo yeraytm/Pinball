@@ -21,7 +21,7 @@ bool ModulePlayer::Start()
 
 	ballRect = { 16, 31, 18, 18 };
 
-	ball = App->physics->CreateCircle(SCREEN_WIDTH-23, SCREEN_HEIGHT/2, 9);
+	ball = App->physics->CreateCircle(SCREEN_WIDTH-23, SCREEN_HEIGHT/2+215, 9);
 	ball->body->SetBullet(true);
 	ball->listener = this;
 
@@ -64,7 +64,7 @@ update_status ModulePlayer::Update()
 		ball->pendingToDelete3 = false;
 
 		b2Vec2 position;
-		position.Set(PIXEL_TO_METERS(float(SCREEN_WIDTH - 23)), PIXEL_TO_METERS(float(SCREEN_HEIGHT / 2)));
+		position.Set(PIXEL_TO_METERS(float(SCREEN_WIDTH - 23)), PIXEL_TO_METERS(float(SCREEN_HEIGHT / 2+215)));
 		ball->body->SetTransform(position, ball->GetRotation());
 
 		b2Vec2 velocity;
