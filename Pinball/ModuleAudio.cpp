@@ -6,7 +6,7 @@
 
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
 
-ModuleAudio::ModuleAudio(Application* app, bool start_enabled) : Module(app, start_enabled), music(NULL), volume(128) {}
+ModuleAudio::ModuleAudio(Application* app, bool start_enabled) : Module(app, start_enabled), music(NULL) {}
 
 // Destructor
 ModuleAudio::~ModuleAudio() {}
@@ -41,6 +41,8 @@ bool ModuleAudio::Start()
 		LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 		ret = true;
 	}
+
+	volume = 128;
 
 	return ret;
 }
