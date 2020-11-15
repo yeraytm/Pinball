@@ -21,7 +21,6 @@ public:
 public:
 	PhysBody* ball;
 
-	SDL_Texture* ballTex;
 	SDL_Rect ballRect;
 	
 	uint numLives = 5;

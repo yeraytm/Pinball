@@ -6,6 +6,7 @@
 #include "ModuleRender.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
+#include "ModuleSceneIntro.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -18,7 +19,6 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	ballTex = App->textures->Load("pinball/graphics/spritesheet.png");
 	ballRect = { 16, 31, 18, 18 };
 
 	ball = App->physics->CreateCircle(SCREEN_WIDTH-23, SCREEN_HEIGHT/2, 9);
@@ -74,7 +74,7 @@ update_status ModulePlayer::Update()
 
 	int x, y;
 	ball->GetPosition(x, y);
-	App->renderer->Blit(ballTex, x, y, &ballRect, 1.0f, ball->GetRotation());
+	App->renderer->Blit(App->scene_intro->spritesheetTex, x, y, &ballRect, 1.0f, ball->GetRotation());
 	
 	return UPDATE_CONTINUE;
 }
@@ -84,7 +84,7 @@ bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
 	ball = nullptr;
-	App->textures->Unload(ballTex);
+	App->textures->Unload(App->scene_intro->spritesheetTex);
 
 	return true;
 }

@@ -4,6 +4,7 @@
 #include "ModulePhysics.h"
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
+#include "ModuleSceneIntro.h"
 
 ModuleFlipper::ModuleFlipper(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -18,7 +19,6 @@ bool ModuleFlipper::Start()
 {
 	LOG("Loading Flipper");
 	bool ret = true;
-	flipperTex = App->textures->Load("pinball/graphics/spritesheet.png");
 	flipperLeftRect = { 55,27,83,32 };
 	flipperRightRect = { 156,28,83,32 };
 	CreateLeftFlipper();
@@ -80,13 +80,13 @@ update_status ModuleFlipper::Update() {
 	actualPositionL.x += 55;
 	actualPositionL.y += 25;
 
-	App->renderer->Blit(flipperTex, actualPositionL.x,actualPositionL.y , &flipperLeftRect, 1.0f, leftFlipper.pBody->GetRotation(),-55,-25);
+	App->renderer->Blit(App->scene_intro->spritesheetTex, actualPositionL.x,actualPositionL.y , &flipperLeftRect, 1.0f, leftFlipper.pBody->GetRotation(),-55,-25);
 
 	rightFlipper.pBody->GetPosition(actualPositionR.x, actualPositionR.y);
 	actualPositionR.x += 3;
 	actualPositionR.y += 3;
 
-	App->renderer->Blit(flipperTex, actualPositionR.x, actualPositionR.y, &flipperRightRect, 1.0f, rightFlipper.pBody->GetRotation(), -3,-3);
+	App->renderer->Blit(App->scene_intro->spritesheetTex, actualPositionR.x, actualPositionR.y, &flipperRightRect, 1.0f, rightFlipper.pBody->GetRotation(), -3,-3);
 
 	return UPDATE_CONTINUE;
 }
@@ -95,7 +95,7 @@ update_status ModuleFlipper::Update() {
 bool ModuleFlipper::CleanUp()
 {
 	LOG("Unloading player");
-	App->textures->Unload(flipperTex);
+	App->textures->Unload(App->scene_intro->spritesheetTex);
 
 	return true;
 }
