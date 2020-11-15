@@ -1,5 +1,6 @@
 #include "ModuleHUD.h"
 #include "Application.h"
+#include "ModuleTextures.h"
 #include "ModuleFonts.h"
 #include "ModuleSceneIntro.h"
 #include "ModulePlayer.h"
@@ -13,6 +14,9 @@ bool ModuleHUD::Start()
 	bool ret = true;
 
 	font = App->fonts->Load("pinball/graphics/font.png", lookupTable, 8);
+
+	logoTex = App->textures->Load("pinball/graphics/Logo.png");
+	logoTex = App->textures->Load("pinball/graphics/UPC.png");
 
 	return ret;
 }

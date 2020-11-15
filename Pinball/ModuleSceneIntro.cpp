@@ -506,7 +506,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		App->audio->PlayFx(pointsFx);
 	}
 
-	if (bodyA == starBall || bodyA == starBall2 || bodyA == starBall3 || bodyA == starBall4 || bodyA == bigStarBall)
+	if (bodyA == starBall || bodyA == starBall2 || bodyA == starBall3 || bodyA == starBall4 || bodyA == starBall5 || bodyA == bigStarBall)
 	{
 		bodyA->hit = !bodyA->hit;
 		score += 10;
@@ -534,10 +534,12 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		pointBall->hit = pointBall2->hit = pointBall3->hit = pointBall4->hit = starBall->hit = starBall2->hit = starBall3->hit = starBall4->hit = starBall5->hit = bigStarBall->hit = false;
 
 		bodyB->pendingToDelete3 = true;
-		if (App->player->lifes > 1) {
+		if (App->player->lifes > 1) 
+		{
 			--App->player->lifes;
 		}
-		else {
+		else 
+		{
 			App->fade_to_black->FadeToBlack((Module*)App->scene_intro, (Module*)App->ending_screen, 100);
 		}
 	}
