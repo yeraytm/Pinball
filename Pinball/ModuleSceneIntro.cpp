@@ -47,6 +47,8 @@ bool ModuleSceneIntro::Start()
 	App->hud->Enable();
 	App->player->Enable();
 	App->flipper->Enable();
+	App->audio->Enable();
+
 
 	// Loading textures
 	boardTex = App->textures->Load("pinball/graphics/board.png");
@@ -61,6 +63,7 @@ bool ModuleSceneIntro::Start()
 	oneUpFx = App->audio->LoadFx("pinball/audio/1-up.wav");
 	springFx = App->audio->LoadFx("pinball/audio/firstBump.wav");
 	flipperFx = App->audio->LoadFx("pinball/audio/flipper.wav");
+
 
 	// Setting spring animations rects
 	for (int i = 0; i < 7; i++)
@@ -339,9 +342,12 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(portalTex);
 	App->textures->Unload(spritesheetTex);
 	App->textures->Unload(springTex);
+
+
+
 	// Disabling modules
 	App->physics->Disable();
-	
+	App->audio->Disable();
 	App->fonts->Disable();
 	App->hud->Disable();
 	App->player->Disable();
@@ -367,6 +373,7 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
+
 	// Handling high score
 	if (score > highScore) {
 		highScore = score;

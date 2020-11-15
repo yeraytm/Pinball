@@ -14,7 +14,7 @@ ModuleAudio::~ModuleAudio()
 {}
 
 // Called before render is available
-bool ModuleAudio::Init()
+bool ModuleAudio::Start()
 {
 	LOG("Loading Audio Mixer");
 	bool ret = true;
@@ -46,7 +46,25 @@ bool ModuleAudio::Init()
 
 	return ret;
 }
+bool ModuleAudio::StopMusic() {
+	Mix_FreeMusic(music);
+	music = nullptr;
+	Mix_HaltMusic();
+	return true;
+}
+bool ModuleAudio::UnloadFx(uint index)
+{
+	bool ret = false;
 
+	Mix_Chunk* chunk = NULL;
+
+	if (fx.at(index - 1, chunk) == true)
+	{
+		Mix_FreeChunk(chunk);
+		ret = true;
+	}
+	return ret;
+}
 // Called before quitting
 bool ModuleAudio::CleanUp()
 {

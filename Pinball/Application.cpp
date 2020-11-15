@@ -141,8 +141,10 @@ bool Application::CleanUp()
 
 	while(item != NULL && ret == true)
 	{
-		if (item->data->IsEnabled())
+		if (item->data->IsEnabled()) {
 			ret = item->data->CleanUp();
+		}
+
 		item = item->prev;
 	}
 	return ret;

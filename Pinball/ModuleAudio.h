@@ -13,7 +13,7 @@ public:
 	ModuleAudio(Application* app, bool start_enabled = true);
 	~ModuleAudio();
 
-	bool Init();
+	bool Start();
 	bool CleanUp();
 
 	// Play a music file
@@ -24,6 +24,8 @@ public:
 
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
+	bool StopMusic();
+	bool UnloadFx(uint index);
 
 private:
 
