@@ -448,6 +448,7 @@ update_status ModuleSceneIntro::Update()
 		App->renderer->Blit(springTex, 370, 575, &springStrechingUp.GetCurrentFrame());
 		if (&springStrechingUp.GetCurrentFrame() == &springStrechingUp.GetFrame(5))
 		{
+			springStrechingUp.Reset();
 			strechingUp = false;
 			if (alreadyKicked == false)
 			{
