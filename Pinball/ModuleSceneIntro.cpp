@@ -29,6 +29,19 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 	bigStarBallRect = { 371, 15, 52, 52 }; // big ball star idle: x = 371 y = 15 w = 52 h = 52
 	bigStarBallHitRect = { 441, 14, 52, 52 }; // big ball star hit: x = 441 y = 14 w = 52 h = 52
 
+	// Setting spring animations rects
+	for (int i = 0; i < 7; i++)
+	{
+		springStrechingDown.PushBack({ 20 * i, 0, 20, 64 });
+	}
+	springStrechingDown.speed = 0.5f;
+
+	for (int i = 7; i < 13; i++)
+	{
+		springStrechingUp.PushBack({ 20 * i, 0, 20, 64 });
+	}
+	springStrechingUp.speed = 0.5f;
+
 	highScore = 0;
 	prevScore = 0;
 	score  = 0;
@@ -66,18 +79,7 @@ bool ModuleSceneIntro::Start()
 
 	App->audio->PlayMusic("pinball/audio/background_music.ogg");
 
-	// Setting spring animations rects
-	for (int i = 0; i < 7; i++)
-	{
-		springStrechingDown.PushBack({ 20 * i, 0, 20, 64 });
-	}
-	springStrechingDown.speed = 0.5f;
-
-	for (int i = 7; i < 13; i++)
-	{
-		springStrechingUp.PushBack({ 20 * i, 0, 20, 64 });
-	}
-	springStrechingUp.speed = 0.5f;
+	
 
 	prevScore = score;
 	// Initializing score
