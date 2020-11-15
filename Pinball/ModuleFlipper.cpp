@@ -5,6 +5,8 @@
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
 #include "ModuleSceneIntro.h"
+#include "ModuleAudio.h"
+#include "ModulePlayer.h"
 
 ModuleFlipper::ModuleFlipper(Application* app, bool start_enabled) : Module(app, start_enabled) {}
 ModuleFlipper::~ModuleFlipper() {}
@@ -18,6 +20,8 @@ bool ModuleFlipper::Start()
 	flipperRightRect = { 156,28,83,32 };
 	CreateLeftFlipper();
 	CreateRightFlipper();
+
+	flipperFx = App->audio->LoadFx("pinball/audio/flipper.wav");
 
 	return ret;
 }
@@ -95,4 +99,12 @@ bool ModuleFlipper::CleanUp()
 void ModuleFlipper::LeftMovement()
 {
 	leftFlipper.revoluteJoint->SetMotorSpeed(-20);
+}
+
+void ModuleFlipper::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
+{
+	if (bodyB == App->player->ball)
+	{
+		App->audio->PlayFx(flipperFx);
+	}
 }

@@ -20,14 +20,14 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 	boardRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	portalRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-	blueBallRect = { 646, 5, 37, 37 }; // ball point blue: x = 645 y = 4 w = 37 h = 37
-	orangeBallRect = { 683, 5, 37, 37 }; // ball point orange: x = 682 y = 4 w = 37 h = 37
+	blueBallRect = { 507, 6, 35, 35 }; // ball point blue: x = 507 y = 6 w = 35 h = 35
+	orangeBallRect = { 544, 6, 35, 35 }; // ball point orange: x = 544 y = 6 w = 35 h = 35
 
-	starBallRect = { 723, 5, 37, 37 }; // ball star idle: x = 722 y = 4 w = 37 h = 37
-	starBallHitRect = { 760, 5, 37, 37 }; // ball star hit: x = 759 y = 4 w = 37 h = 37
+	starBallRect = { 583, 5, 37, 37 }; // ball star idle: x = 583 y = 5 w = 37 h = 37
+	starBallHitRect = { 620, 5, 37, 37 }; // ball star hit: x = 620 y = 5 w = 37 h = 37
 
-	bigStarBallRect = { 477, 2, 77, 77 }; // big ball star idle: x = 477 y = 2 w = 77 h = 77
-	bigStarBallHitRect = { 557, 2, 77, 77 }; // big ball star hit: x = 557 y = 2 w = 77 h = 77
+	bigStarBallRect = { 371, 15, 52, 52 }; // big ball star idle: x = 371 y = 15 w = 52 h = 52
+	bigStarBallHitRect = { 441, 14, 52, 52 }; // big ball star hit: x = 441 y = 14 w = 52 h = 52
 
 	highScore = 0;
 }
@@ -49,7 +49,6 @@ bool ModuleSceneIntro::Start()
 	App->flipper->Enable();
 	App->audio->Enable();
 
-
 	// Loading textures
 	boardTex = App->textures->Load("pinball/graphics/board.png");
 	portalTex = App->textures->Load("pinball/graphics/portal.png");
@@ -62,8 +61,6 @@ bool ModuleSceneIntro::Start()
 	rampFx = App->audio->LoadFx("pinball/audio/ramp.wav");
 	oneUpFx = App->audio->LoadFx("pinball/audio/1-up.wav");
 	springFx = App->audio->LoadFx("pinball/audio/firstBump.wav");
-	flipperFx = App->audio->LoadFx("pinball/audio/flipper.wav");
-
 
 	// Setting spring animations rects
 	for (int i = 0; i < 7; i++)
@@ -308,7 +305,7 @@ bool ModuleSceneIntro::Start()
 	starBall3 = App->physics->CreateStaticCircle(180, 490, 18);
 	starBall3->listener = this;
 
-	bigStarBall = App->physics->CreateStaticCircle(185, 338, 38);
+	bigStarBall = App->physics->CreateStaticCircle(185, 338, 26);
 	bigStarBall->listener = this;
 
 	pointBall->hit = pointBall2->hit = starBall->hit = starBall2->hit = starBall3->hit = bigStarBall->hit = false;
@@ -343,8 +340,6 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(spritesheetTex);
 	App->textures->Unload(springTex);
 
-
-
 	// Disabling modules
 	App->physics->Disable();
 	App->audio->Disable();
@@ -352,7 +347,8 @@ bool ModuleSceneIntro::CleanUp()
 	App->hud->Disable();
 	App->player->Disable();
 	App->flipper->Disable();
-	//set all colliders and sensors to nullptr after being destroyed by the physics cleanup
+
+	// Set all colliders and sensors to nullptr after being destroyed by the physics cleanup
 	boardParts.clear();
 	pointBall = nullptr;
 	pointBall2 = nullptr;
@@ -361,30 +357,21 @@ bool ModuleSceneIntro::CleanUp()
 	starBall3 = nullptr;
 	bigStarBall = nullptr;
 
-	// Sensors
 	sensor = nullptr;
 	sensor2 = nullptr;
 	sensor3 = nullptr;
 	sensor4 = nullptr;
 	sensorRamp = nullptr;
+
 	return true;
 }
 
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
-
 	// Handling high score
 	if (score > highScore) {
 		highScore = score;
-	}
-
-	// Getting mouse position for the joint
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		ray_on = !ray_on;
-		ray.x = App->input->GetMouseX();
-		ray.y = App->input->GetMouseY();
 	}
 
 	// Prepare for raycast ------------------------------------------------------
@@ -445,16 +432,6 @@ update_status ModuleSceneIntro::Update()
 		App->audio->PlayFx(springFx);
 	}
 
-	/*p2List_item<PhysBody*>* c = pointBalls.getFirst();
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		SDL_Rect pointsBallRect = { 312, 2, 75, 75 };
-		App->renderer->Blit(spriteSheet, x, y, &pointsBallRect, 1.0f, c->data->GetRotation());
-		c = c->next;
-	}*/
-
 	// Blit Point Balls
 	if(!pointBall->hit) App->renderer->Blit(spritesheetTex, pointBall->GetPosX(), pointBall->GetPosY(), &blueBallRect, 1.0f, pointBall->GetRotation());
 	else App->renderer->Blit(spritesheetTex, pointBall->GetPosX(), pointBall->GetPosY(), &orangeBallRect, 1.0f, pointBall->GetRotation());
@@ -474,22 +451,6 @@ update_status ModuleSceneIntro::Update()
 
 	if (!bigStarBall->hit) App->renderer->Blit(spritesheetTex, bigStarBall->GetPosX(), bigStarBall->GetPosY(), &bigStarBallRect, 1.0f, bigStarBall->GetRotation());
 	else App->renderer->Blit(spritesheetTex, bigStarBall->GetPosX(), bigStarBall->GetPosY(), &bigStarBallHitRect, 1.0f, bigStarBall->GetRotation());
-
-	/*c = boxes.getFirst();
-
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(box, x, y, NULL, 1.0f, c->data->GetRotation());
-		if(ray_on)
-		{
-			int hit = c->data->RayCast(ray.x, ray.y, mouse.x, mouse.y, normal.x, normal.y);
-			if(hit >= 0)
-				ray_hit = hit;
-		}
-		c = c->next;
-	}*/
 
 	// Ray -----------------
 	if(ray_on == true)
@@ -517,6 +478,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		if (pointBall->hit && pointBall2->hit)
 		{
+			++App->player->lifes;
 			App->audio->PlayFx(oneUpFx);
 		}
 
@@ -529,7 +491,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		score += 10;
 
 		b2Vec2 force(bodyB->body->GetWorldCenter() - bodyA->body->GetWorldCenter());
-		force *= 3;
+		force *= 2;
 		bodyB->body->ApplyLinearImpulse(force, bodyB->body->GetWorldCenter(), true);
 
 		App->audio->PlayFx(bumpFx);
@@ -560,11 +522,6 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	if (bodyA == sensor4)
 	{
 		alreadyKicked = false;
-	}
-
-	if (bodyA == App->flipper->leftFlipper.pBody || bodyA == App->flipper->rightFlipper.pBody)
-	{
-		App->audio->PlayFx(flipperFx);
 	}
 
 	if (bodyA == sensorRamp)

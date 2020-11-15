@@ -34,6 +34,10 @@ public:
 	void LeftMovement();
 	void RightMovement();
 
+	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
+
+	uint flipperFx;
+
 private:
 	SDL_Rect flipperLeftRect,flipperRightRect;
 	iPoint initialPosLeft = { 114,614 }, initialPosRight = { 296,614 };

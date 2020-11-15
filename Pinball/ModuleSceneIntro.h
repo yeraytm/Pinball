@@ -77,7 +77,6 @@ public:
 	uint rampFx;
 	uint oneUpFx;
 	uint springFx;
-	uint flipperFx;
 
 	// Scores
 	uint score, highScore;
