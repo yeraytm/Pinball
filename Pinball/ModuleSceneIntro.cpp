@@ -26,6 +26,7 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 
 	bigStarBallRect = { 477, 2, 77, 77 }; // big ball star idle: x = 477 y = 2 w = 77 h = 77
 	bigStarBallHitRect = { 557, 2, 77, 77 }; // big ball star hit: x = 557 y = 2 w = 77 h = 77
+
 	highScore = 0;
 }
 
@@ -37,18 +38,23 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+
 	App->physics->Enable();
 	App->player->Enable();
 	App->flipper->Enable();
 	App->hud->Enable();
+
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	spriteSheet = App->textures->Load("pinball/Spritesheet.png");
 
 	pointsFx = App->audio->LoadFx("pinball/hitBall.wav");
 	bumpFx = App->audio->LoadFx("pinball/hitBallStar.wav");
-	flipperFx = App->audio->LoadFx("pinball/flipper.wav");
+	rampFx = App->audio->LoadFx("pinball/ramp.wav");
+	oneUpFx = App->audio->LoadFx("pinball/1-up.wav");
+
 	score = 0;
+
 	// Pivot 0, 0
 	int boardPoints[124] = {
 		0, 0,
@@ -263,13 +269,15 @@ bool ModuleSceneIntro::Start()
 		pinballBody->data->body->SetType(b2_staticBody);
 	}
 
+	// Points Balls
 	pointBall1 = App->physics->CreateCircleSensor(238, 160, 18);
 	pointBall1->listener = this;
 
 	pointBall2 = App->physics->CreateCircleSensor(315, 335, 18);
 	pointBall2->listener = this;
 
-	starBall1 = App->physics->CreateStaticCircle(SCREEN_WIDTH / 2, 215, 18);
+	// Star / Bumper Balls
+	starBall1 = App->physics->CreateStaticCircle(SCREEN_WIDTH / 2, 210, 18);
 	starBall1->listener = this;
 
 	starBall2 = App->physics->CreateStaticCircle(310, 130, 18);
@@ -278,21 +286,26 @@ bool ModuleSceneIntro::Start()
 	starBall3 = App->physics->CreateStaticCircle(180, 490, 18);
 	starBall3->listener = this;
 
-	//starBall4 = App->physics->CreateStaticCircle()
+	bigStarBall1 = App->physics->CreateStaticCircle(185, 338, 38);
+	bigStarBall1->listener = this;
 
+	pointBall1->hit = pointBall2->hit = starBall1->hit = starBall2->hit = starBall3->hit = bigStarBall1->hit = false;
+
+	// Sensors
 	sensor = App->physics->CreateRectangleSensor(73, 163, 20, 20);
 	sensor->listener = this;
 
 	sensor2 = App->physics->CreateRectangleSensor(307, 227, 20, 20);
 	sensor2->listener = this;
 
-	sensor3 = App->physics->CreateRectangleSensor(SCREEN_WIDTH/2, SCREEN_HEIGHT + 10, SCREEN_WIDTH, 20);
+	sensor3 = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT + 10, SCREEN_WIDTH, 20);
 	sensor3->listener = this;
 
 	sensor4 = App->physics->CreateRectangleSensor(382, 556, 1, 1);
 	sensor4->listener = this;
 
-	
+	sensorRamp = App->physics->CreateRectangleSensor(170, 258, 8, 8);
+	sensorRamp->listener = this;
 
 	return ret;
 }
@@ -346,12 +359,25 @@ update_status ModuleSceneIntro::Update()
 		c = c->next;
 	}*/
 
-	App->renderer->Blit(spriteSheet, pointBall1->GetPosX(), pointBall1->GetPosY(), &blueBallRect, 1.0f, pointBall1->GetRotation());
-	App->renderer->Blit(spriteSheet, pointBall2->GetPosX(), pointBall2->GetPosY(), &blueBallRect, 1.0f, pointBall2->GetRotation());
+	// Blit Point Balls
+	if(!pointBall1->hit) App->renderer->Blit(spriteSheet, pointBall1->GetPosX(), pointBall1->GetPosY(), &blueBallRect, 1.0f, pointBall1->GetRotation());
+	else App->renderer->Blit(spriteSheet, pointBall1->GetPosX(), pointBall1->GetPosY(), &orangeBallRect, 1.0f, pointBall1->GetRotation());
 
-	App->renderer->Blit(spriteSheet, starBall1->GetPosX(), starBall1->GetPosY(), &starBallRect, 1.0f, starBall1->GetRotation());
-	App->renderer->Blit(spriteSheet, starBall2->GetPosX(), starBall2->GetPosY(), &starBallRect, 1.0f, starBall2->GetRotation());
-	App->renderer->Blit(spriteSheet, starBall3->GetPosX(), starBall3->GetPosY(), &starBallRect, 1.0f, starBall3->GetRotation());
+	if (!pointBall2->hit) App->renderer->Blit(spriteSheet, pointBall2->GetPosX(), pointBall2->GetPosY(), &blueBallRect, 1.0f, pointBall2->GetRotation());
+	else App->renderer->Blit(spriteSheet, pointBall2->GetPosX(), pointBall2->GetPosY(), &orangeBallRect, 1.0f, pointBall2->GetRotation());
+
+	// Blit Star / Bumper Balls
+	if(!starBall1->hit) App->renderer->Blit(spriteSheet, starBall1->GetPosX(), starBall1->GetPosY(), &starBallRect, 1.0f, starBall1->GetRotation());
+	else App->renderer->Blit(spriteSheet, starBall1->GetPosX(), starBall1->GetPosY(), &starBallHitRect, 1.0f, starBall1->GetRotation());
+
+	if (!starBall2->hit) App->renderer->Blit(spriteSheet, starBall2->GetPosX(), starBall2->GetPosY(), &starBallRect, 1.0f, starBall2->GetRotation());
+	else App->renderer->Blit(spriteSheet, starBall2->GetPosX(), starBall2->GetPosY(), &starBallHitRect, 1.0f, starBall2->GetRotation());
+	
+	if (!starBall3->hit) App->renderer->Blit(spriteSheet, starBall3->GetPosX(), starBall3->GetPosY(), &starBallRect, 1.0f, starBall3->GetRotation());
+	else App->renderer->Blit(spriteSheet, starBall3->GetPosX(), starBall3->GetPosY(), &starBallHitRect, 1.0f, starBall3->GetRotation());
+
+	if (!bigStarBall1->hit) App->renderer->Blit(spriteSheet, bigStarBall1->GetPosX(), bigStarBall1->GetPosY(), &bigStarBallRect, 1.0f, bigStarBall1->GetRotation());
+	else App->renderer->Blit(spriteSheet, bigStarBall1->GetPosX(), bigStarBall1->GetPosY(), &bigStarBallHitRect, 1.0f, bigStarBall1->GetRotation());
 
 	/*c = boxes.getFirst();
 
@@ -369,7 +395,7 @@ update_status ModuleSceneIntro::Update()
 		c = c->next;
 	}*/
 
-	// ray -----------------
+	// Ray -----------------
 	if(ray_on == true)
 	{
 		fVector destination(mouse.x-ray.x, mouse.y-ray.y);
@@ -389,16 +415,32 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
 	if (bodyA == pointBall1 || bodyA == pointBall2)
 	{
-		App->audio->PlayFx(pointsFx);
+		bodyA->hit = !bodyA->hit;
 		score += 10;
+
+		if (pointBall1->hit && pointBall2->hit)
+		{
+			++App->player->lifes;
+			App->audio->PlayFx(oneUpFx);
+		}
+
+		App->audio->PlayFx(pointsFx);
 	}
 
-	if (bodyA == starBall1 || bodyA == starBall2 || bodyA == starBall3 || bodyA == starBall4)
+	if (bodyA == starBall1 || bodyA == starBall2 || bodyA == starBall3 || bodyA == bigStarBall1)
 	{
-		b2Vec2 force(bodyB->body->GetWorldCenter() - bodyA->body->GetWorldCenter());
-		force *= 4;
-		bodyB->body->ApplyLinearImpulse(force, bodyB->body->GetWorldCenter(), true);
-		App->audio->PlayFx(bumpFx);
+		bodyA->hit = !bodyA->hit;
 		score += 10;
+
+		b2Vec2 force(bodyB->body->GetWorldCenter() - bodyA->body->GetWorldCenter());
+		force *= 3;
+		bodyB->body->ApplyLinearImpulse(force, bodyB->body->GetWorldCenter(), true);
+
+		App->audio->PlayFx(bumpFx);
+	}
+
+	if (bodyA == sensorRamp)
+	{
+		App->audio->PlayFx(rampFx);
 	}
 }

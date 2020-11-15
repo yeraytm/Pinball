@@ -4,19 +4,25 @@
 #include "p2Point.h"
 #include "Globals.h"
 #include "SDL/include/SDL_Rect.h"
+
 class PhysBody;
+
 class ModuleSceneIntro : public Module
 {
 public:
 	ModuleSceneIntro(Application* app, bool start_enabled = true);
+
 	~ModuleSceneIntro();
 
 	bool Start();
 	update_status Update();
 	bool CleanUp();
+
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
+
 	uint GetScore() { return score; }
 	int GetHighScore() { return highScore; }
+
 public:
 	// Scene bodies
 	p2List<PhysBody*> boardParts;
@@ -27,13 +33,15 @@ public:
 	PhysBody* starBall1;
 	PhysBody* starBall2;
 	PhysBody* starBall3;
-	PhysBody* starBall4;
-	//PhysBody* starBall5;
+	
+	PhysBody* bigStarBall1;
 
 	PhysBody* sensor;
 	PhysBody* sensor2;
 	PhysBody* sensor3;
 	PhysBody* sensor4;
+
+	PhysBody* sensorRamp;
 
 	SDL_Texture* spriteSheet;
 
@@ -52,8 +60,11 @@ public:
 
 	uint pointsFx;
 	uint bumpFx;
-	uint flipperFx;
-	uint score,highScore;
+	uint rampFx;
+	uint oneUpFx;
+
+	uint score, highScore;
+
 	p2Point<int> ray;
 	bool ray_on;
 };

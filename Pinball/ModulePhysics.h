@@ -36,6 +36,8 @@ public:
 	bool pendingToDelete;
 	bool pendingToDelete2;
 	bool pendingToDelete3;
+
+	bool hit = false;
 };
 
 // Module --------------------------------------

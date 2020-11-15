@@ -31,6 +31,7 @@ bool ModulePlayer::Start()
 	springTex = App->textures->Load("pinball/spring.png");
 
 	springFx = App->audio->LoadFx("pinball/firstBump.wav");
+	flipperFx = App->audio->LoadFx("pinball/flipper.wav");
 
 	for (int i = 0; i < 7; i++)
 	{
@@ -173,7 +174,6 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		else {
 			App->fade_to_black->FadeToBlack((Module*)App->scene_intro, (Module*)App->ending_screen, 100);
 		}
-		
 	}
 
 	if (bodyB == App->scene_intro->sensor4)
@@ -181,8 +181,8 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		alreadyKicked = false;
 	}
 
-	if (bodyB == App->flipper->leftFlipper.pBody || bodyB == App->flipper->leftFlipper.pBody)
+	if (bodyB == App->flipper->leftFlipper.pBody || bodyB == App->flipper->rightFlipper.pBody)
 	{
-
+		App->audio->PlayFx(flipperFx);
 	}
 }
