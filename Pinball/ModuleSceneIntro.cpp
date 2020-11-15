@@ -80,12 +80,10 @@ bool ModuleSceneIntro::Start()
 
 	App->audio->PlayMusic("pinball/audio/background_music.ogg");
 
-	
-
 	prevScore = score;
+
 	// Initializing score
 	score = 0;
-	
 
 	// Creating chains
 	// Pivot 0, 0
