@@ -47,8 +47,10 @@ update_status ModuleEndingScreen::Update()
 
 	App->fonts->BlitText(70, SCREEN_HEIGHT/ 2, font, "Score:................");
 	App->fonts->BlitText(300, SCREEN_HEIGHT / 2, font, std::to_string(App->scene_intro->GetScore()).c_str());
-	App->fonts->BlitText(70, SCREEN_HEIGHT / 2+40, font, "HighScore:............");
-	App->fonts->BlitText(300, SCREEN_HEIGHT / 2+40, font, std::to_string(App->scene_intro->GetHighScore()).c_str());
+	App->fonts->BlitText(70, SCREEN_HEIGHT / 2+40, font, "PreviousScore:........");
+	App->fonts->BlitText(300, SCREEN_HEIGHT / 2+40, font, std::to_string(App->scene_intro->GetPrevScore()).c_str());
+	App->fonts->BlitText(70, SCREEN_HEIGHT / 2+80, font, "HighestScore:.........");
+	App->fonts->BlitText(300, SCREEN_HEIGHT / 2+80, font, std::to_string(App->scene_intro->GetHighScore()).c_str());
 
 	return ret;
 }

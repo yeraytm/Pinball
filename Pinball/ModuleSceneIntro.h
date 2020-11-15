@@ -25,7 +25,8 @@ public:
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 
 	uint GetScore() { return score; }
-	int GetHighScore() { return highScore; }
+	uint GetPrevScore() { return prevScore; }
+	uint GetHighScore() { return highScore; }
 
 public:
 	// Board bodies
@@ -83,7 +84,7 @@ public:
 	uint springFx;
 
 	// Scores
-	uint score, highScore;
+	uint score, highScore, prevScore;
 
 	// To handle the spring movement
 	bool strechingDown = false;

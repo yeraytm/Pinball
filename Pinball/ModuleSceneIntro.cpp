@@ -30,6 +30,8 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 	bigStarBallHitRect = { 441, 14, 52, 52 }; // big ball star hit: x = 441 y = 14 w = 52 h = 52
 
 	highScore = 0;
+	prevScore = 0;
+	score = 0;
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -77,8 +79,10 @@ bool ModuleSceneIntro::Start()
 	}
 	springStrechingUp.speed = 0.5f;
 
+	prevScore = score;
 	// Initializing score
 	score = 0;
+	
 
 	// Creating chains
 	// Pivot 0, 0
