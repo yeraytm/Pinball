@@ -14,11 +14,11 @@
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	spriteSheet = NULL;
+	spritesheetTex = NULL;
 	ray_on = false;
 
 	boardRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-	boardPortalRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	portalRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
 	blueBallRect = { 646, 5, 37, 37 }; // ball point blue: x = 645 y = 4 w = 37 h = 37
 	orangeBallRect = { 683, 5, 37, 37 }; // ball point orange: x = 682 y = 4 w = 37 h = 37
@@ -41,29 +41,28 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
+	// Enabling necessary modules
 	App->physics->Enable();
 	App->fonts->Enable();
 	App->hud->Enable();
 	App->player->Enable();
 	App->flipper->Enable();
 
-	/*App->renderer->camera.x = App->renderer->camera.y = 0;*/
-
-	board = App->textures->Load("pinball/graphics/board.png");
-	boardPortal = App->textures->Load("pinball/graphics/portal.png");
-	spriteSheet = App->textures->Load("pinball/graphics/spritesheet.png");
-
+	// Loading textures
+	boardTex = App->textures->Load("pinball/graphics/board.png");
+	portalTex = App->textures->Load("pinball/graphics/portal.png");
+	spritesheetTex = App->textures->Load("pinball/graphics/spritesheet.png");
 	springTex = App->textures->Load("pinball/graphics/spring.png");
 
-	// Audio load
+	// Loading audio
 	pointsFx = App->audio->LoadFx("pinball/audio/hitBall.wav");
 	bumpFx = App->audio->LoadFx("pinball/audio/hitBallStar.wav");
 	rampFx = App->audio->LoadFx("pinball/audio/ramp.wav");
 	oneUpFx = App->audio->LoadFx("pinball/audio/1-up.wav");
-
 	springFx = App->audio->LoadFx("pinball/audio/firstBump.wav");
 	flipperFx = App->audio->LoadFx("pinball/audio/flipper.wav");
 
+	// Setting spring animations rects
 	for (int i = 0; i < 7; i++)
 	{
 		springStrechingDown.PushBack({ 20 * i, 0, 20, 64 });
@@ -76,8 +75,10 @@ bool ModuleSceneIntro::Start()
 	}
 	springStrechingUp.speed = 0.5f;
 
+	// Initializing score
 	score = 0;
 
+	// Creating chains
 	// Pivot 0, 0
 	int boardBase[124] = {
 		0, 0,
@@ -292,16 +293,16 @@ bool ModuleSceneIntro::Start()
 		pinballBody->data->body->SetType(b2_staticBody);
 	}
 
-	// Points Balls
-	pointBall1 = App->physics->CreateCircleSensor(238, 160, 18);
-	pointBall1->listener = this;
+	// Point Balls
+	pointBall = App->physics->CreateCircleSensor(238, 160, 18);
+	pointBall->listener = this;
 
 	pointBall2 = App->physics->CreateCircleSensor(315, 335, 18);
 	pointBall2->listener = this;
 
 	// Star / Bumper Balls
-	starBall1 = App->physics->CreateStaticCircle(SCREEN_WIDTH / 2, 210, 18);
-	starBall1->listener = this;
+	starBall = App->physics->CreateStaticCircle(SCREEN_WIDTH / 2, 210, 18);
+	starBall->listener = this;
 
 	starBall2 = App->physics->CreateStaticCircle(310, 130, 18);
 	starBall2->listener = this;
@@ -309,10 +310,10 @@ bool ModuleSceneIntro::Start()
 	starBall3 = App->physics->CreateStaticCircle(180, 490, 18);
 	starBall3->listener = this;
 
-	bigStarBall1 = App->physics->CreateStaticCircle(185, 338, 38);
-	bigStarBall1->listener = this;
+	bigStarBall = App->physics->CreateStaticCircle(185, 338, 38);
+	bigStarBall->listener = this;
 
-	pointBall1->hit = pointBall2->hit = starBall1->hit = starBall2->hit = starBall3->hit = bigStarBall1->hit = false;
+	pointBall->hit = pointBall2->hit = starBall->hit = starBall2->hit = starBall3->hit = bigStarBall->hit = false;
 
 	// Sensors
 	sensor = App->physics->CreateRectangleSensor(73, 163, 20, 20);
@@ -338,11 +339,13 @@ bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
 	
-	App->textures->Unload(board);
-	App->textures->Unload(boardPortal);
-	App->textures->Unload(spriteSheet);
+	// Unloading textures
+	App->textures->Unload(boardTex);
+	App->textures->Unload(portalTex);
+	App->textures->Unload(spritesheetTex);
 	App->textures->Unload(springTex);
 
+	// Disabling modules
 	App->physics->Disable();
 	App->fonts->Disable();
 	App->hud->Disable();
@@ -355,9 +358,12 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
+	// Handling high score
 	if (score > highScore) {
 		highScore = score;
 	}
+
+	// Getting mouse position for the joint
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		ray_on = !ray_on;
@@ -374,8 +380,8 @@ update_status ModuleSceneIntro::Update()
 	fVector normal(0.0f, 0.0f);
 
 	// All draw functions ------------------------------------------------------
-	App->renderer->Blit(board, 0, 0, &boardRect, 0.0f);
-	App->renderer->Blit(boardPortal, 0, 0, &boardPortalRect, 0.0f);
+	App->renderer->Blit(boardTex, 0, 0, &boardRect, 0.0f);
+	App->renderer->Blit(portalTex, 0, 0, &portalRect, 0.0f);
 
 	// Handling spring
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && strechingDown == false && strechingUp == false)
@@ -434,24 +440,24 @@ update_status ModuleSceneIntro::Update()
 	}*/
 
 	// Blit Point Balls
-	if(!pointBall1->hit) App->renderer->Blit(spriteSheet, pointBall1->GetPosX(), pointBall1->GetPosY(), &blueBallRect, 1.0f, pointBall1->GetRotation());
-	else App->renderer->Blit(spriteSheet, pointBall1->GetPosX(), pointBall1->GetPosY(), &orangeBallRect, 1.0f, pointBall1->GetRotation());
+	if(!pointBall->hit) App->renderer->Blit(spritesheetTex, pointBall->GetPosX(), pointBall->GetPosY(), &blueBallRect, 1.0f, pointBall->GetRotation());
+	else App->renderer->Blit(spritesheetTex, pointBall->GetPosX(), pointBall->GetPosY(), &orangeBallRect, 1.0f, pointBall->GetRotation());
 
-	if (!pointBall2->hit) App->renderer->Blit(spriteSheet, pointBall2->GetPosX(), pointBall2->GetPosY(), &blueBallRect, 1.0f, pointBall2->GetRotation());
-	else App->renderer->Blit(spriteSheet, pointBall2->GetPosX(), pointBall2->GetPosY(), &orangeBallRect, 1.0f, pointBall2->GetRotation());
+	if (!pointBall2->hit) App->renderer->Blit(spritesheetTex, pointBall2->GetPosX(), pointBall2->GetPosY(), &blueBallRect, 1.0f, pointBall2->GetRotation());
+	else App->renderer->Blit(spritesheetTex, pointBall2->GetPosX(), pointBall2->GetPosY(), &orangeBallRect, 1.0f, pointBall2->GetRotation());
 
 	// Blit Star / Bumper Balls
-	if(!starBall1->hit) App->renderer->Blit(spriteSheet, starBall1->GetPosX(), starBall1->GetPosY(), &starBallRect, 1.0f, starBall1->GetRotation());
-	else App->renderer->Blit(spriteSheet, starBall1->GetPosX(), starBall1->GetPosY(), &starBallHitRect, 1.0f, starBall1->GetRotation());
+	if(!starBall->hit) App->renderer->Blit(spritesheetTex, starBall->GetPosX(), starBall->GetPosY(), &starBallRect, 1.0f, starBall->GetRotation());
+	else App->renderer->Blit(spritesheetTex, starBall->GetPosX(), starBall->GetPosY(), &starBallHitRect, 1.0f, starBall->GetRotation());
 
-	if (!starBall2->hit) App->renderer->Blit(spriteSheet, starBall2->GetPosX(), starBall2->GetPosY(), &starBallRect, 1.0f, starBall2->GetRotation());
-	else App->renderer->Blit(spriteSheet, starBall2->GetPosX(), starBall2->GetPosY(), &starBallHitRect, 1.0f, starBall2->GetRotation());
+	if (!starBall2->hit) App->renderer->Blit(spritesheetTex, starBall2->GetPosX(), starBall2->GetPosY(), &starBallRect, 1.0f, starBall2->GetRotation());
+	else App->renderer->Blit(spritesheetTex, starBall2->GetPosX(), starBall2->GetPosY(), &starBallHitRect, 1.0f, starBall2->GetRotation());
 	
-	if (!starBall3->hit) App->renderer->Blit(spriteSheet, starBall3->GetPosX(), starBall3->GetPosY(), &starBallRect, 1.0f, starBall3->GetRotation());
-	else App->renderer->Blit(spriteSheet, starBall3->GetPosX(), starBall3->GetPosY(), &starBallHitRect, 1.0f, starBall3->GetRotation());
+	if (!starBall3->hit) App->renderer->Blit(spritesheetTex, starBall3->GetPosX(), starBall3->GetPosY(), &starBallRect, 1.0f, starBall3->GetRotation());
+	else App->renderer->Blit(spritesheetTex, starBall3->GetPosX(), starBall3->GetPosY(), &starBallHitRect, 1.0f, starBall3->GetRotation());
 
-	if (!bigStarBall1->hit) App->renderer->Blit(spriteSheet, bigStarBall1->GetPosX(), bigStarBall1->GetPosY(), &bigStarBallRect, 1.0f, bigStarBall1->GetRotation());
-	else App->renderer->Blit(spriteSheet, bigStarBall1->GetPosX(), bigStarBall1->GetPosY(), &bigStarBallHitRect, 1.0f, bigStarBall1->GetRotation());
+	if (!bigStarBall->hit) App->renderer->Blit(spritesheetTex, bigStarBall->GetPosX(), bigStarBall->GetPosY(), &bigStarBallRect, 1.0f, bigStarBall->GetRotation());
+	else App->renderer->Blit(spritesheetTex, bigStarBall->GetPosX(), bigStarBall->GetPosY(), &bigStarBallHitRect, 1.0f, bigStarBall->GetRotation());
 
 	/*c = boxes.getFirst();
 
@@ -487,12 +493,13 @@ update_status ModuleSceneIntro::Update()
 
 void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
-	if (bodyA == pointBall1 || bodyA == pointBall2)
+	// Handling balls collisions
+	if (bodyA == pointBall || bodyA == pointBall2)
 	{
 		bodyA->hit = !bodyA->hit;
 		score += 10;
 
-		if (pointBall1->hit && pointBall2->hit)
+		if (pointBall->hit && pointBall2->hit)
 		{
 			++App->player->lifes;
 			App->audio->PlayFx(oneUpFx);
@@ -501,7 +508,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		App->audio->PlayFx(pointsFx);
 	}
 
-	if (bodyA == starBall1 || bodyA == starBall2 || bodyA == starBall3 || bodyA == bigStarBall1)
+	if (bodyA == starBall || bodyA == starBall2 || bodyA == starBall3 || bodyA == bigStarBall)
 	{
 		bodyA->hit = !bodyA->hit;
 		score += 10;
@@ -513,7 +520,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		App->audio->PlayFx(bumpFx);
 	}
 
-	// Sensors collisions
+	// Handling sensors collisions
 	if (bodyA == sensor)
 	{
 		bodyB->pendingToDelete = true;

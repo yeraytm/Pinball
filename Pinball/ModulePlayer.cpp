@@ -19,28 +19,11 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	ballTex = App->textures->Load("pinball/graphics/spritesheet.png");
-	ballRec = { 16, 31, 18, 18 };
+	ballRect = { 16, 31, 18, 18 };
 
 	ball = App->physics->CreateCircle(SCREEN_WIDTH-23, SCREEN_HEIGHT/2, 9);
 	ball->body->SetBullet(true);
 	ball->listener = this;
-
-	/*springTex = App->textures->Load("pinball/graphics/spring.png");
-
-	springFx = App->audio->LoadFx("pinball/audio/firstBump.wav");
-	flipperFx = App->audio->LoadFx("pinball/audio/flipper.wav");
-
-	for (int i = 0; i < 7; i++)
-	{
-		springStrechingDown.PushBack({ 20 * i, 0, 20, 64 });
-	}
-	springStrechingDown.speed = 0.5f;
-
-	for (int i = 7; i < 13; i++)
-	{
-		springStrechingUp.PushBack({ 20 * i, 0, 20, 64 });
-	}
-	springStrechingUp.speed = 0.5f;*/
 
 	lifes = 5;
 
@@ -91,7 +74,7 @@ update_status ModulePlayer::Update()
 
 	int x, y;
 	ball->GetPosition(x, y);
-	App->renderer->Blit(ballTex, x, y, &ballRec, 1.0f, ball->GetRotation());
+	App->renderer->Blit(ballTex, x, y, &ballRect, 1.0f, ball->GetRotation());
 	
 	return UPDATE_CONTINUE;
 }

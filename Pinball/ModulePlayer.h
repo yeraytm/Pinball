@@ -22,22 +22,10 @@ public:
 	PhysBody* ball;
 
 	SDL_Texture* ballTex;
-	SDL_Rect ballRec;
+	SDL_Rect ballRect;
 	
 	uint numLives = 5;
 	bool gameOver = false;
 
-	/*SDL_Texture* springTex;
-	SDL_Rect springRec;*/
-
-	/*Animation springStrechingDown;
-	Animation springStrechingUp;*/
-
-	/*bool strechingDown = false;
-	bool strechingUp = false;
-	bool alreadyKicked = true;*/
-
 	uint lifes;
-	/*uint springFx;
-	uint flipperFx;*/
 };
