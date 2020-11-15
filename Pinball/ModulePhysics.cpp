@@ -214,7 +214,6 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, float3
 PhysBody* ModulePhysics::CreatePolygon(int x, int y, int* points, int size)
 {
 	b2BodyDef body;
-	//body.type = b2_staticBody;
 	body.type = b2_dynamicBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 

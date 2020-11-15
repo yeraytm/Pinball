@@ -42,6 +42,7 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 
 	// Enabling necessary modules
+	App->physics->Enable();
 	App->fonts->Enable();
 	App->hud->Enable();
 	App->player->Enable();
@@ -338,17 +339,13 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(portalTex);
 	App->textures->Unload(spritesheetTex);
 	App->textures->Unload(springTex);
-	//Disabling Physic Bodies
-
-
 	// Disabling modules
-	App->physics->CleanUp();
+	App->physics->Disable();
 	
 	App->fonts->Disable();
 	App->hud->Disable();
 	App->player->Disable();
 	App->flipper->Disable();
-	App->physics->Start();
 	//set all colliders and sensors to nullptr after being destroyed by the physics cleanup
 	boardParts.clear();
 	pointBall = nullptr;
