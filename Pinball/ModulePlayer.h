@@ -18,8 +18,6 @@ public:
 
 	uint GetLifes() { return lifes; }
 
-	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
-
 public:
 	PhysBody* ball;
 
@@ -29,17 +27,17 @@ public:
 	uint numLives = 5;
 	bool gameOver = false;
 
-	SDL_Texture* springTex;
-	SDL_Rect springRec;
+	/*SDL_Texture* springTex;
+	SDL_Rect springRec;*/
 
-	Animation springStrechingDown;
-	Animation springStrechingUp;
+	/*Animation springStrechingDown;
+	Animation springStrechingUp;*/
 
-	bool strechingDown = false;
+	/*bool strechingDown = false;
 	bool strechingUp = false;
-	bool alreadyKicked = true;
+	bool alreadyKicked = true;*/
 
 	uint lifes;
-	uint springFx;
-	uint flipperFx;
+	/*uint springFx;
+	uint flipperFx;*/
 };

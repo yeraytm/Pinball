@@ -18,7 +18,7 @@ bool ModuleFlipper::Start()
 {
 	LOG("Loading Flipper");
 	bool ret = true;
-	flipperTex = App->textures->Load("pinball/Spritesheet.png");
+	flipperTex = App->textures->Load("pinball/graphics/spritesheet.png");
 	flipperLeftRect = { 55,27,83,32 };
 	flipperRightRect = { 156,28,83,32 };
 	CreateLeftFlipper();

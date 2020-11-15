@@ -9,14 +9,16 @@
 #include "ModulePlayer.h"
 #include "ModuleFlipper.h"
 #include "ModuleHUD.h"
+#include "ModuleFonts.h"
+#include "ModuleFadeToBlack.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	spriteSheet = NULL;
 	ray_on = false;
 
-	boardRect = { 0, 83, 405, 677 };
-	boardPortalRect = { 416, 258, 340, 369 };
+	boardRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	boardPortalRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
 	blueBallRect = { 646, 5, 37, 37 }; // ball point blue: x = 645 y = 4 w = 37 h = 37
 	orangeBallRect = { 683, 5, 37, 37 }; // ball point orange: x = 682 y = 4 w = 37 h = 37
@@ -40,23 +42,44 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 
 	App->physics->Enable();
+	App->fonts->Enable();
+	App->hud->Enable();
 	App->player->Enable();
 	App->flipper->Enable();
-	App->hud->Enable();
 
-	App->renderer->camera.x = App->renderer->camera.y = 0;
+	/*App->renderer->camera.x = App->renderer->camera.y = 0;*/
 
-	spriteSheet = App->textures->Load("pinball/Spritesheet.png");
+	board = App->textures->Load("pinball/graphics/board.png");
+	boardPortal = App->textures->Load("pinball/graphics/portal.png");
+	spriteSheet = App->textures->Load("pinball/graphics/spritesheet.png");
 
-	pointsFx = App->audio->LoadFx("pinball/hitBall.wav");
-	bumpFx = App->audio->LoadFx("pinball/hitBallStar.wav");
-	rampFx = App->audio->LoadFx("pinball/ramp.wav");
-	oneUpFx = App->audio->LoadFx("pinball/1-up.wav");
+	springTex = App->textures->Load("pinball/graphics/spring.png");
+
+	// Audio load
+	pointsFx = App->audio->LoadFx("pinball/audio/hitBall.wav");
+	bumpFx = App->audio->LoadFx("pinball/audio/hitBallStar.wav");
+	rampFx = App->audio->LoadFx("pinball/audio/ramp.wav");
+	oneUpFx = App->audio->LoadFx("pinball/audio/1-up.wav");
+
+	springFx = App->audio->LoadFx("pinball/audio/firstBump.wav");
+	flipperFx = App->audio->LoadFx("pinball/audio/flipper.wav");
+
+	for (int i = 0; i < 7; i++)
+	{
+		springStrechingDown.PushBack({ 20 * i, 0, 20, 64 });
+	}
+	springStrechingDown.speed = 0.5f;
+
+	for (int i = 7; i < 13; i++)
+	{
+		springStrechingUp.PushBack({ 20 * i, 0, 20, 64 });
+	}
+	springStrechingUp.speed = 0.5f;
 
 	score = 0;
 
 	// Pivot 0, 0
-	int boardPoints[124] = {
+	int boardBase[124] = {
 		0, 0,
 		406, 0,
 		406, 677,
@@ -121,10 +144,10 @@ bool ModuleSceneIntro::Start()
 		0,677
 	};
 
-	boardParts.add(App->physics->CreateChain(0, 0, boardPoints, 124));
+	boardParts.add(App->physics->CreateChain(0, 0, boardBase, 124));
 
 	// Pivot 0, 0
-	int boardRamp1[72] = {
+	int boardRamp[72] = {
 		113, 374,
 		100, 353,
 		96, 331,
@@ -163,7 +186,7 @@ bool ModuleSceneIntro::Start()
 		114, 374
 	};
 
-	boardParts.add(App->physics->CreateChain(0, 0, boardRamp1, 72));
+	boardParts.add(App->physics->CreateChain(0, 0, boardRamp, 72));
 
 	// Pivot 0, 0
 	int boardRamp2[64] = {
@@ -226,7 +249,7 @@ bool ModuleSceneIntro::Start()
 	boardParts.add(App->physics->CreateChain(0, 0, boardCircle, 32));
 
 	// Pivot 0, 0
-	int boardPlatform1[12] = {
+	int boardPlatform[12] = {
 	79, 536,
 	116, 602,
 	102, 612,
@@ -236,7 +259,7 @@ bool ModuleSceneIntro::Start()
 	};
 
 	// Has Restitution
-	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform1, 12, 1));
+	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform, 12, 1));
 
 	// Pivot 0, 0
 	int boardPlatform2[10] = {
@@ -315,12 +338,17 @@ bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
 	
+	App->textures->Unload(board);
+	App->textures->Unload(boardPortal);
 	App->textures->Unload(spriteSheet);
-	App->player->Disable();
-	App->flipper->Disable();
-	App->hud->Disable();
+	App->textures->Unload(springTex);
 
 	App->physics->Disable();
+	App->fonts->Disable();
+	App->hud->Disable();
+	App->player->Disable();
+	App->flipper->Disable();
+
 	return true;
 }
 
@@ -346,8 +374,54 @@ update_status ModuleSceneIntro::Update()
 	fVector normal(0.0f, 0.0f);
 
 	// All draw functions ------------------------------------------------------
-	App->renderer->Blit(spriteSheet, 0, 0, &boardRect, 0.0f);
-	App->renderer->Blit(spriteSheet, 20, 173, &boardPortalRect, 0.0f);
+	App->renderer->Blit(board, 0, 0, &boardRect, 0.0f);
+	App->renderer->Blit(boardPortal, 0, 0, &boardPortalRect, 0.0f);
+
+	// Handling spring
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && strechingDown == false && strechingUp == false)
+	{
+		strechingDown = true;
+	}
+
+	if (strechingDown == true)
+	{
+		App->renderer->Blit(springTex, 370, 575, &springStrechingDown.GetCurrentFrame());
+		if (&springStrechingDown.GetCurrentFrame() == &springStrechingDown.GetFrame(6))
+		{
+			springStrechingDown.Reset();
+			strechingDown = false;
+			strechingUp = true;
+		}
+	}
+	else if (strechingUp == true && App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	{
+		App->renderer->Blit(springTex, 370, 575, &springStrechingDown.GetFrame(6));
+	}
+	else if (strechingUp == true)
+	{
+		App->renderer->Blit(springTex, 370, 575, &springStrechingUp.GetCurrentFrame());
+		if (&springStrechingUp.GetCurrentFrame() == &springStrechingUp.GetFrame(5))
+		{
+			strechingUp = false;
+			if (alreadyKicked == false)
+			{
+				alreadyKicked = true;
+				b2Vec2 force;
+				force.Set(0, -80);
+				App->player->ball->body->ApplyForceToCenter(force, true);
+			}
+		}
+	}
+
+	if (strechingDown == false && strechingUp == false)
+	{
+		App->renderer->Blit(springTex, 370, 575, &springStrechingDown.GetFrame(0));
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP)
+	{
+		App->audio->PlayFx(springFx);
+	}
 
 	/*p2List_item<PhysBody*>* c = pointBalls.getFirst();
 	while(c != NULL)
@@ -437,6 +511,38 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		bodyB->body->ApplyLinearImpulse(force, bodyB->body->GetWorldCenter(), true);
 
 		App->audio->PlayFx(bumpFx);
+	}
+
+	// Sensors collisions
+	if (bodyA == sensor)
+	{
+		bodyB->pendingToDelete = true;
+	}
+
+	if (bodyA == sensor2)
+	{
+		bodyB->pendingToDelete2 = true;
+	}
+
+	if (bodyA == sensor3)
+	{
+		bodyB->pendingToDelete3 = true;
+		if (App->player->lifes > 1) {
+			--App->player->lifes;
+		}
+		else {
+			App->fade_to_black->FadeToBlack((Module*)App->scene_intro, (Module*)App->ending_screen, 100);
+		}
+	}
+
+	if (bodyA == sensor4)
+	{
+		alreadyKicked = false;
+	}
+
+	if (bodyA == App->flipper->leftFlipper.pBody || bodyA == App->flipper->rightFlipper.pBody)
+	{
+		App->audio->PlayFx(flipperFx);
 	}
 
 	if (bodyA == sensorRamp)

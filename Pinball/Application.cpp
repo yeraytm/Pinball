@@ -23,7 +23,7 @@ Application::Application()
 	window = new ModuleWindow(this);
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
-	fonts = new ModuleFonts(this);
+	fonts = new ModuleFonts(this, false);
 	audio = new ModuleAudio(this);
 	player = new ModulePlayer(this, false);
 	flipper = new ModuleFlipper(this, false);
@@ -33,7 +33,7 @@ Application::Application()
 	ending_screen = new ModuleEndingScreen(this, false);
 	
 	hud = new ModuleHUD(this, false);
-	physics = new ModulePhysics(this);
+	physics = new ModulePhysics(this, false);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order

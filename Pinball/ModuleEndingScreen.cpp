@@ -21,8 +21,8 @@ bool ModuleEndingScreen::Start()
 
 	// Screen rect
 	screen = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-	tex = App->textures->Load("pinball/ending_screen.png");
-	font = App->fonts->Load("pinball/Font.png", lookupTable, 8);
+	tex = App->textures->Load("pinball/graphics/ending_screen.png");
+	font = App->fonts->Load("pinball/graphics/font.png", lookupTable, 8);
 
 	if (tex == nullptr)
 	{
@@ -46,10 +46,11 @@ update_status ModuleEndingScreen::Update()
 	{
 		ret = UPDATE_STOP;
 	}
-	App->fonts->BlitText(55, SCREEN_HEIGHT/ 2, font, "Score:");
-	App->fonts->BlitText(150, SCREEN_HEIGHT / 2, font, std::to_string(App->scene_intro->GetScore()).c_str());
-	App->fonts->BlitText(55, SCREEN_HEIGHT / 2+40, font, "HighScore:");
-	App->fonts->BlitText(190, SCREEN_HEIGHT / 2+40, font, std::to_string(App->scene_intro->GetHighScore()).c_str());
+
+	App->fonts->BlitText(70, SCREEN_HEIGHT/ 2, font, "Score:................");
+	App->fonts->BlitText(300, SCREEN_HEIGHT / 2, font, std::to_string(App->scene_intro->GetScore()).c_str());
+	App->fonts->BlitText(70, SCREEN_HEIGHT / 2+40, font, "HighScore:............");
+	App->fonts->BlitText(300, SCREEN_HEIGHT / 2+40, font, std::to_string(App->scene_intro->GetHighScore()).c_str());
 
 	return ret;
 }

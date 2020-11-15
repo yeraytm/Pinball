@@ -5,6 +5,8 @@
 #include "Globals.h"
 #include "SDL/include/SDL_Rect.h"
 
+#include "Animation.h"
+
 class PhysBody;
 
 class ModuleSceneIntro : public Module
@@ -43,7 +45,11 @@ public:
 
 	PhysBody* sensorRamp;
 
+	SDL_Texture* board;
+	SDL_Texture* boardPortal;
 	SDL_Texture* spriteSheet;
+
+	SDL_Texture* springTex;
 
 	// Rects to blit
 	SDL_Rect boardRect; // board: x = 0 y = 83 w = 405 h = 677
@@ -58,13 +64,24 @@ public:
 	SDL_Rect bigStarBallRect; // big ball star idle: x = 477 y = 2 w = 77 h = 77
 	SDL_Rect bigStarBallHitRect; // big ball star hit: x = 557 y = 2 w = 77 h = 77
 
+	SDL_Rect springRec;
+	Animation springStrechingDown;
+	Animation springStrechingUp;
+
 	uint pointsFx;
 	uint bumpFx;
 	uint rampFx;
 	uint oneUpFx;
 
+	uint springFx;
+	uint flipperFx;
+
 	uint score, highScore;
 
 	p2Point<int> ray;
 	bool ray_on;
+
+	bool strechingDown = false;
+	bool strechingUp = false;
+	bool alreadyKicked = true;
 };

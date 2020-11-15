@@ -13,7 +13,7 @@ ModuleHUD::~ModuleHUD()
 bool ModuleHUD::Start()
 {
 	bool ret = true;
-	font = App->fonts->Load("pinball/Font.png",lookupTable,8);
+	font = App->fonts->Load("pinball/graphics/font.png",lookupTable,8);
 	return ret;
 }
 

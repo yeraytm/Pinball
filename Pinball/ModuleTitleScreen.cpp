@@ -19,7 +19,7 @@ bool ModuleTitleScreen::Start()
 
 	// Screen rect
 	screen = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-	tex = App->textures->Load("pinball/title_screen.png");
+	tex = App->textures->Load("pinball/graphics/title_screen.png");
 
 	if (tex == nullptr)
 	{
