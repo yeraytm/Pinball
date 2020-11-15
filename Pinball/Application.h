@@ -1,5 +1,4 @@
 #pragma once
-
 #include "p2List.h"
 #include "Globals.h"
 
@@ -36,12 +35,11 @@ public:
 	ModuleFadeToBlack* fade_to_black;
 	ModuleTitleScreen* title_screen;
 	ModuleEndingScreen* ending_screen;
-private:
 
+private:
 	p2List<Module*> list_modules;
 
 public:
-
 	Application();
 	~Application();
 
@@ -50,6 +48,5 @@ public:
 	bool CleanUp();
 
 private:
-
 	void AddModule(Module* mod);
 };

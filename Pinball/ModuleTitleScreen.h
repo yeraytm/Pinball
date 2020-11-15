@@ -1,6 +1,6 @@
 #pragma once
-#ifndef __MODULETITLESCREEN_H__
-#define __MODULETITLESCREEN_H__
+#ifndef __MODULE_TITLE_SCREEN_H__
+#define __MODULE_TITLE_SCREEN_H__
 
 #include "Module.h"
 #include "SDL/include/SDL_timer.h"
@@ -11,9 +11,7 @@ struct SDL_Texture;
 class ModuleTitleScreen : public Module
 {
 public:
-
 	ModuleTitleScreen(Application* app, bool startEnabled = true);
-
 	virtual ~ModuleTitleScreen();
 	
 	bool Start();
@@ -23,8 +21,7 @@ public:
 	bool CleanUp();
 
 private:
-
 	SDL_Texture* tex = nullptr;
 	SDL_Rect screen;
 };
-#endif
+#endif // __MODULE_TITLE_SCREEN_H__

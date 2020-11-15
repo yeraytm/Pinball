@@ -6,12 +6,10 @@
 
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
 
-ModuleAudio::ModuleAudio(Application* app, bool start_enabled) : Module(app, start_enabled), music(NULL)
-{}
+ModuleAudio::ModuleAudio(Application* app, bool start_enabled) : Module(app, start_enabled), music(NULL) {}
 
 // Destructor
-ModuleAudio::~ModuleAudio()
-{}
+ModuleAudio::~ModuleAudio() {}
 
 // Called before render is available
 bool ModuleAudio::Start()
@@ -46,12 +44,15 @@ bool ModuleAudio::Start()
 
 	return ret;
 }
-bool ModuleAudio::StopMusic() {
+
+bool ModuleAudio::StopMusic()
+{
 	Mix_FreeMusic(music);
 	music = nullptr;
 	Mix_HaltMusic();
 	return true;
 }
+
 bool ModuleAudio::UnloadFx(uint index)
 {
 	bool ret = false;
@@ -65,6 +66,7 @@ bool ModuleAudio::UnloadFx(uint index)
 	}
 	return ret;
 }
+
 // Called before quitting
 bool ModuleAudio::CleanUp()
 {

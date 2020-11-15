@@ -1,4 +1,7 @@
 #pragma once
+#ifndef __MODULE_FLIPPER_H__
+#define __MODULE_FLIPPER_H__
+
 #include "Module.h"
 #include "Globals.h"
 #include "p2Point.h"
@@ -6,7 +9,9 @@
 
 class PhysBody;
 class b2RevoluteJoint;
-class FlipperObject {
+
+class FlipperObject
+{
 public:
 	PhysBody* pBody = nullptr;
 	PhysBody* rotationPivot = nullptr;
@@ -37,3 +42,4 @@ private:
 public:
 	FlipperObject leftFlipper,rightFlipper;
 };
+#endif // __MODULE_FLIPPER_H__

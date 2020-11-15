@@ -1,4 +1,7 @@
 #pragma once
+#ifndef __MODULE_TEXTURES_H__
+#define __MODULE_TEXTRUES_H__
+
 #include "Module.h"
 #include "Globals.h"
 #include "p2List.h"
@@ -20,3 +23,4 @@ public:
 public:
 	p2List<SDL_Texture*> textures;
 };
+#endif // __MODULE_TEXTURES_H__

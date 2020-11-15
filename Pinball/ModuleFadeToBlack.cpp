@@ -1,5 +1,4 @@
 #include "ModuleFadeToBlack.h"
-
 #include "Application.h"
 #include "ModuleRender.h"
 
@@ -10,8 +9,7 @@ ModuleFadeToBlack::ModuleFadeToBlack(Application* app, bool startEnabled) : Modu
 	screenRect = {0, 0, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE};
 }
 
-ModuleFadeToBlack::~ModuleFadeToBlack()
-{}
+ModuleFadeToBlack::~ModuleFadeToBlack() {}
 
 bool ModuleFadeToBlack::Start()
 {
@@ -87,7 +85,8 @@ bool ModuleFadeToBlack::FadeToBlack(Module* moduleToDisable, Module* moduleToEna
 	return ret;
 }
 
-bool ModuleFadeToBlack::hasEnded() {
+bool ModuleFadeToBlack::HasEnded()
+{
 	bool ret = true;
 
 	if (currentStep == Fade_Step::NONE)

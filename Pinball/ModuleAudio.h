@@ -1,5 +1,5 @@
-#ifndef __ModuleAudio_H__
-#define __ModuleAudio_H__
+#ifndef __MODULE_AUDIO_H__
+#define __MODULE_AUDIO_H__
 
 #include "Module.h"
 #include "SDL_mixer\include\SDL_mixer.h"
@@ -9,7 +9,6 @@
 class ModuleAudio : public Module
 {
 public:
-
 	ModuleAudio(Application* app, bool start_enabled = true);
 	~ModuleAudio();
 
@@ -28,9 +27,8 @@ public:
 	bool UnloadFx(uint index);
 
 private:
-
 	Mix_Music*			music;
 	p2List<Mix_Chunk*>	fx;
 };
 
-#endif // __ModuleAudio_H__
+#endif // __MODULE_AUDIO_H__

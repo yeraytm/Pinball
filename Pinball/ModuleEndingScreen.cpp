@@ -9,11 +9,9 @@
 #include "ModuleFonts.h"
 #include "ModuleSceneIntro.h"
 #include <string>
-ModuleEndingScreen::ModuleEndingScreen(Application* app, bool startEnabled) : Module(app, startEnabled)
-{}
 
-ModuleEndingScreen::~ModuleEndingScreen()
-{}
+ModuleEndingScreen::ModuleEndingScreen(Application* app, bool startEnabled) : Module(app, startEnabled) {}
+ModuleEndingScreen::~ModuleEndingScreen() {}
 
 bool ModuleEndingScreen::Start()
 {

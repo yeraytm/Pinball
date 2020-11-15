@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Globals.h"
 
 class Application;
@@ -13,11 +12,9 @@ private :
 public:
 	Application* App;
 
-	Module(Application* parent, bool start_enabled = true) : App(parent), enabled(start_enabled)
-	{}
+	Module(Application* parent, bool start_enabled = true) : App(parent), enabled(start_enabled) {}
 
-	virtual ~Module()
-	{}
+	virtual ~Module() {}
 
 	bool IsEnabled() const
 	{
@@ -72,7 +69,5 @@ public:
 		return true; 
 	}
 
-	virtual void OnCollision(PhysBody* bodyA, PhysBody* bodyB)
-	{
-	}
+	virtual void OnCollision(PhysBody* bodyA, PhysBody* bodyB) {}
 };

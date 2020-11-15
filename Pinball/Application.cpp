@@ -1,4 +1,3 @@
-
 #include "Module.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
@@ -31,7 +30,6 @@ Application::Application()
 	fade_to_black = new ModuleFadeToBlack(this);
 	title_screen = new ModuleTitleScreen(this);
 	ending_screen = new ModuleEndingScreen(this, false);
-	
 	hud = new ModuleHUD(this, false);
 	physics = new ModulePhysics(this);
 
@@ -46,19 +44,19 @@ Application::Application()
 	AddModule(input);
 	AddModule(audio);
 	AddModule(fonts);
-
 	// Scenes
 	AddModule(title_screen);
 	AddModule(scene_intro);
 	AddModule(ending_screen);
-	
+	// HUD
 	AddModule(hud);
+	// Fade To Black
 	AddModule(fade_to_black);
-	
 	// Player
 	AddModule(player);
+	// Flipper
 	AddModule(flipper);
-
+	// Renderer always at the end
 	AddModule(renderer);
 }
 
@@ -141,7 +139,8 @@ bool Application::CleanUp()
 
 	while(item != NULL && ret == true)
 	{
-		if (item->data->IsEnabled()) {
+		if (item->data->IsEnabled())
+		{
 			ret = item->data->CleanUp();
 		}
 

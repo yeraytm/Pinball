@@ -1,4 +1,7 @@
 #pragma once
+#ifndef __MODULE_PHYSICS_H__
+#define __MODULE_PHYSICS_H__
+
 #include "Module.h"
 #include "Globals.h"
 #include "Box2D/Box2D/Box2D.h"
@@ -16,9 +19,7 @@
 class PhysBody
 {
 public:
-	PhysBody() : listener(NULL), body(NULL)
-	{}
-
+	PhysBody() : listener(NULL), body(NULL) {}
 	~PhysBody();
 
 	void GetPosition(int& x, int& y) const;
@@ -66,7 +67,6 @@ public:
 	void DestroyJoints();
 
 private:
-
 	bool debug;
 	b2World* world;
 	b2MouseJoint* mouse_joint;
@@ -78,3 +78,4 @@ private:
 	b2DistanceJoint* distance_joint;
 	bool distanceJoint = false;
 };
+#endif // __MODULE_PHYSICS_H__

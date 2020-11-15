@@ -1,8 +1,8 @@
+#include "ModulePhysics.h"
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
-#include "ModulePhysics.h"
 #include "p2Point.h"
 #include "math.h"
 
@@ -25,9 +25,7 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 }
 
 // Destructor
-ModulePhysics::~ModulePhysics()
-{
-}
+ModulePhysics::~ModulePhysics() {}
 
 bool ModulePhysics::Start()
 {
@@ -246,7 +244,8 @@ PhysBody* ModulePhysics::CreatePolygon(int x, int y, int* points, int size)
 	return pbody;
 }
 
-b2RevoluteJoint* ModulePhysics::CreateRevoluteJoint(PhysBody* rotationPivot, PhysBody* pBody, int anchorBx, int anchorBy, int upperAngleLimit, int lowerAngleLimit) {
+b2RevoluteJoint* ModulePhysics::CreateRevoluteJoint(PhysBody* rotationPivot, PhysBody* pBody, int anchorBx, int anchorBy, int upperAngleLimit, int lowerAngleLimit)
+{
 	b2RevoluteJointDef revolutionDef;
 	revolutionDef.bodyA = rotationPivot->body;
 	revolutionDef.bodyB = pBody->body;
@@ -259,7 +258,8 @@ b2RevoluteJoint* ModulePhysics::CreateRevoluteJoint(PhysBody* rotationPivot, Phy
 	revolutionDef.enableMotor = true;
 	revolutionDef.motorSpeed = 2;
 	revolutionDef.maxMotorTorque = 400;
-	return (b2RevoluteJoint*)App->physics->world->CreateJoint(&revolutionDef); //Save joint in a var included in struct of flipper
+
+	return (b2RevoluteJoint*)App->physics->world->CreateJoint(&revolutionDef); // Save joint in a var included in struct of flipper
 }
 
 update_status ModulePhysics::PostUpdate()
@@ -520,6 +520,7 @@ int PhysBody::RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& no
 
 			return output.fraction * dist;
 		}
+
 		fixture = fixture->GetNext();
 	}
 

@@ -7,11 +7,9 @@
 #include "ModuleAudio.h"
 #include "ModuleWindow.h"
 
-ModuleTitleScreen::ModuleTitleScreen(Application* app, bool startEnabled) : Module(app, startEnabled)
-{}
+ModuleTitleScreen::ModuleTitleScreen(Application* app, bool startEnabled) : Module(app, startEnabled) {}
 
-ModuleTitleScreen::~ModuleTitleScreen()
-{}
+ModuleTitleScreen::~ModuleTitleScreen() {}
 
 bool ModuleTitleScreen::Start()
 {
