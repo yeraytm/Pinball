@@ -53,4 +53,5 @@ private:
 	int mouse_x;
 	int mouse_y;
 };
+
 #endif // __MODULE_INPUT_H__

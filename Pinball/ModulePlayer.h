@@ -30,4 +30,5 @@ public:
 
 	uint lifes;
 };
+
 #endif // __MODULE_PLAYER_H__

@@ -28,4 +28,5 @@ public:
 	SDL_Renderer* renderer;
 	SDL_Rect camera;
 };
+
 #endif // __MODULE_RENDER_H__

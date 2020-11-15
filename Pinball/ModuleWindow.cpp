@@ -24,7 +24,7 @@ bool ModuleWindow::Init()
 	}
 	else
 	{
-		//Create window
+		// Create window
 		int width = SCREEN_WIDTH * SCREEN_SIZE;
 		int height = SCREEN_HEIGHT * SCREEN_SIZE;
 		Uint32 flags = SDL_WINDOW_SHOWN;
@@ -58,7 +58,7 @@ bool ModuleWindow::Init()
 		}
 		else
 		{
-			//Get window surface
+			// Get window surface
 			screen_surface = SDL_GetWindowSurface(window);
 		}
 	}
@@ -71,14 +71,15 @@ bool ModuleWindow::CleanUp()
 {
 	LOG("Destroying SDL window and quitting all SDL systems");
 
-	//Destroy window
+	// Destroy window
 	if(window != NULL)
 	{
 		SDL_DestroyWindow(window);
 	}
 
-	//Quit SDL subsystems
+	// Quit SDL subsystems
 	SDL_Quit();
+
 	return true;
 }
 

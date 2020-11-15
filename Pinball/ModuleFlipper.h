@@ -40,11 +40,12 @@ public:
 	uint flipperFx;
 
 private:
-	SDL_Rect flipperLeftRect,flipperRightRect;
+	SDL_Rect flipperLeftRect, flipperRightRect;
 	iPoint initialPosLeft = { 114,614 }, initialPosRight = { 296,614 };
 	iPoint actualPositionL = { 0,0 }, actualPositionR = { 0,0 };
 
 public:
-	FlipperObject leftFlipper,rightFlipper;
+	FlipperObject leftFlipper, rightFlipper;
 };
+
 #endif // __MODULE_FLIPPER_H__

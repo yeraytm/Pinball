@@ -23,6 +23,6 @@ private:
 	SDL_Rect screen;
 	char lookupTable[99] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,;:$#'! /?%&()@          " };
 	int font = -1;
-
 };
+
 #endif // __MODULE_ENDING_SCREEN_H__

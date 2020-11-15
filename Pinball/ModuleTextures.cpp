@@ -91,6 +91,7 @@ void ModuleTextures::Unload(SDL_Texture* texture)
 			textures.del(item);
 			break;
 		}
+
 		item = item->next;
 	}
 }

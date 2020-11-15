@@ -15,13 +15,12 @@ public:
 	virtual ~ModuleTitleScreen();
 	
 	bool Start();
-
 	update_status Update();
-
 	bool CleanUp();
 
 private:
 	SDL_Texture* tex = nullptr;
 	SDL_Rect screen;
 };
+
 #endif // __MODULE_TITLE_SCREEN_H__

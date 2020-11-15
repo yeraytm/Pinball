@@ -23,4 +23,5 @@ public:
 public:
 	p2List<SDL_Texture*> textures;
 };
+
 #endif // __MODULE_TEXTURES_H__

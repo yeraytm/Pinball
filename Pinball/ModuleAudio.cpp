@@ -1,6 +1,6 @@
+#include "ModuleAudio.h"
 #include "Globals.h"
 #include "Application.h"
-#include "ModuleAudio.h"
 #include "SDL\include\SDL.h"
 #include "SDL_mixer\include\SDL_mixer.h"
 
@@ -35,7 +35,7 @@ bool ModuleAudio::Start()
 		ret = false;
 	}
 
-	//Initialize SDL_mixer
+	// Initialize SDL_mixer
 	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 	{
 		LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());

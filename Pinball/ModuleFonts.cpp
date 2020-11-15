@@ -97,8 +97,10 @@ void ModuleFonts::BlitText(int x, int y, int font_id, const char* text) const
 	{
 		// 1 - Find the location of the current character in the lookup table
 		uint locationInTable = 0;
-		for (uint j = 0; j < font->totalLength; ++j) {
-			if (font->table[j] == text[i]) {
+		for (uint j = 0; j < font->totalLength; ++j)
+		{
+			if (font->table[j] == text[i])
+			{
 				locationInTable = j;
 				break;
 			}

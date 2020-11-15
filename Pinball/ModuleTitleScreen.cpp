@@ -8,7 +8,6 @@
 #include "ModuleWindow.h"
 
 ModuleTitleScreen::ModuleTitleScreen(Application* app, bool startEnabled) : Module(app, startEnabled) {}
-
 ModuleTitleScreen::~ModuleTitleScreen() {}
 
 bool ModuleTitleScreen::Start()

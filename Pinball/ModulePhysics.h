@@ -78,4 +78,5 @@ private:
 	b2DistanceJoint* distance_joint;
 	bool distanceJoint = false;
 };
+
 #endif // __MODULE_PHYSICS_H__

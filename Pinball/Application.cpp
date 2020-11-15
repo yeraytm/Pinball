@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "Module.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
@@ -13,8 +14,6 @@
 #include "ModuleFadeToBlack.h"
 #include "ModuleTitleScreen.h"
 #include "ModuleEndingScreen.h"
-
-#include "Application.h"
 
 Application::Application()
 {
@@ -146,6 +145,7 @@ bool Application::CleanUp()
 
 		item = item->prev;
 	}
+
 	return ret;
 }
 

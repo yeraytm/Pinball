@@ -59,5 +59,4 @@ private:
 	SDL_Texture* tex;
 };
 
-
 #endif // __MODULE_FONTS_H__
