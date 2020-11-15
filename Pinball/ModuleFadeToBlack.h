@@ -1,5 +1,6 @@
-#ifndef __MODULEFADETOBLACK_H__
-#define __MODULEFADETOBLACK_H__
+#pragma once
+#ifndef __MODULE_FADE_TO_BLACK_H__
+#define __MODULE_FADE_TO_BLACK_H__
 
 #include "Module.h"
 #include "SDL/include/SDL_rect.h"
@@ -30,16 +31,16 @@ public:
 	// After the first step, the modules should be switched
 	bool FadeToBlack(Module* toDisable, Module* toEnable, float frames = 60);
 
-	bool hasEnded();
+	bool HasEnded();
 
 private:
-
 	enum Fade_Step
 	{
 		NONE,
 		TO_BLACK,
 		FROM_BLACK
-	} currentStep = Fade_Step::NONE;
+	}
+	currentStep = Fade_Step::NONE;
 
 	// A frame count system to handle the fade time and ratio
 	Uint32 frameCount = 0;
@@ -53,4 +54,4 @@ private:
 	Module* moduleToDisable = nullptr;
 };
 
-#endif //__MODULEFADETOBLACK_H__
+#endif //__MODULE_FADE_TO_BLACK_H__

@@ -27,7 +27,6 @@ struct Font
 class ModuleFonts : public Module
 {
 public:
-
 	// Constructor
 	ModuleFonts(Application* app, bool start_enabled = true);
 
@@ -61,4 +60,4 @@ private:
 };
 
 
-#endif // __ModuleFonts_H__
+#endif // __MODULE_FONTS_H__

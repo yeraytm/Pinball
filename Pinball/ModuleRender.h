@@ -1,4 +1,7 @@
 #pragma once
+#ifndef __MODULE_RENDER_H__
+#define __MODULE_RENDER_H__
+
 #include "Module.h"
 #include "Globals.h"
 
@@ -25,3 +28,4 @@ public:
 	SDL_Renderer* renderer;
 	SDL_Rect camera;
 };
+#endif // __MODULE_RENDER_H__

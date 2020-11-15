@@ -1,4 +1,7 @@
 #pragma once
+#ifndef __MODULE_PLAYER_H__
+#define __MODULE_PLAYER_H__
+
 #include "Module.h"
 #include "Globals.h"
 #include "p2Point.h"
@@ -9,7 +12,6 @@ class ModulePlayer : public Module
 {
 public:
 	ModulePlayer(Application* app, bool start_enabled = true);
-	
 	virtual ~ModulePlayer();
 
 	bool Start();
@@ -28,3 +30,4 @@ public:
 
 	uint lifes;
 };
+#endif // __MODULE_PLAYER_H__

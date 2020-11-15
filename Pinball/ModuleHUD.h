@@ -1,4 +1,7 @@
 ﻿#pragma once
+#ifndef __MODULE_HUD_H__
+#define __MODULE_HUD_H__
+
 #include "Module.h"
 
 class ModuleHUD : public Module
@@ -12,5 +15,5 @@ public:
 	bool CleanUp();
 	char lookupTable[99] = {"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,;:$#'! /?%&()@          "};
 	int font = -1;
-
 };
+#endif // __MODULE_HUD_H__

@@ -1,4 +1,7 @@
 #pragma once
+#ifndef __MODULE_INPUT_H__
+#define __MODULE_INPUT_H__
+
 #include "Module.h"
 #include "Globals.h"
 
@@ -17,7 +20,6 @@ enum KEY_STATE
 class ModuleInput : public Module
 {
 public:
-	
 	ModuleInput(Application* app, bool start_enabled = true);
 	~ModuleInput();
 
@@ -51,3 +53,4 @@ private:
 	int mouse_x;
 	int mouse_y;
 };
+#endif // __MODULE_INPUT_H__

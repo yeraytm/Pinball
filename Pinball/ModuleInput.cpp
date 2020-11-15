@@ -22,6 +22,7 @@ bool ModuleInput::Init()
 {
 	LOG("Init SDL input event system");
 	bool ret = true;
+
 	SDL_Init(0);
 
 	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
@@ -36,7 +37,6 @@ bool ModuleInput::Init()
 // Called every draw update
 update_status ModuleInput::PreUpdate()
 {
-
 	SDL_PumpEvents();
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
@@ -85,11 +85,14 @@ update_status ModuleInput::PreUpdate()
 		return UPDATE_STOP;
 
 	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		if (event.type == SDL_QUIT) {
+	while (SDL_PollEvent(&event))
+	{
+		if (event.type == SDL_QUIT)
+		{
 			return UPDATE_STOP;
 		}
 	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -97,6 +100,8 @@ update_status ModuleInput::PreUpdate()
 bool ModuleInput::CleanUp()
 {
 	LOG("Quitting SDL input event subsystem");
+
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
+
 	return true;
 }

@@ -1,18 +1,12 @@
+#include "ModuleFonts.h"
 #include "Application.h"
-
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
-#include "ModuleFonts.h"
 
 #include<string.h>
 
-ModuleFonts::ModuleFonts(Application* app, bool start_enabled) : Module(app, start_enabled)
-{}
-
-ModuleFonts::~ModuleFonts()
-{
-
-}
+ModuleFonts::ModuleFonts(Application* app, bool start_enabled) : Module(app, start_enabled) {}
+ModuleFonts::~ModuleFonts() {}
 
 // Load new texture from file path
 int ModuleFonts::Load(const char* texture_path, const char* characters, uint rows)
