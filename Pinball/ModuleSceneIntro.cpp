@@ -287,7 +287,6 @@ bool ModuleSceneIntro::Start()
 	// Has Restitution
 	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform3, 12, 1));
 
-
 	// Point Balls
 	pointBall = App->physics->CreateCircleSensor(238, 160, 18);
 	pointBall->listener = this;
@@ -295,20 +294,30 @@ bool ModuleSceneIntro::Start()
 	pointBall2 = App->physics->CreateCircleSensor(315, 335, 18);
 	pointBall2->listener = this;
 
+	pointBall3 = App->physics->CreateCircleSensor(73, 230, 18);
+	pointBall3->listener = this;
+
+	pointBall4 = App->physics->CreateCircleSensor(SCREEN_WIDTH / 2, 400, 18);
+	pointBall4->listener = this;
+
 	// Star / Bumper Balls
 	starBall = App->physics->CreateStaticCircle(SCREEN_WIDTH / 2, 210, 18);
 	starBall->listener = this;
 
-	starBall2 = App->physics->CreateStaticCircle(310, 130, 18);
+	starBall2 = App->physics->CreateStaticCircle(310, 150, 18);
 	starBall2->listener = this;
 
 	starBall3 = App->physics->CreateStaticCircle(180, 490, 18);
 	starBall3->listener = this;
 
-	bigStarBall = App->physics->CreateStaticCircle(185, 338, 26);
-	bigStarBall->listener = this;
+	starBall4 = App->physics->CreateStaticCircle(65, 500, 18);
+	starBall4->listener = this;
 
-	pointBall->hit = pointBall2->hit = starBall->hit = starBall2->hit = starBall3->hit = bigStarBall->hit = false;
+	starBall5 = App->physics->CreateStaticCircle(85, 100, 18);
+	starBall5->listener = this;
+
+	bigStarBall = App->physics->CreateStaticCircle(145, 328, 26);
+	bigStarBall->listener = this;
 
 	// Sensors
 	sensor = App->physics->CreateRectangleSensor(73, 163, 20, 20);
@@ -439,6 +448,12 @@ update_status ModuleSceneIntro::Update()
 	if (!pointBall2->hit) App->renderer->Blit(spritesheetTex, pointBall2->GetPosX(), pointBall2->GetPosY(), &blueBallRect, 1.0f, pointBall2->GetRotation());
 	else App->renderer->Blit(spritesheetTex, pointBall2->GetPosX(), pointBall2->GetPosY(), &orangeBallRect, 1.0f, pointBall2->GetRotation());
 
+	if (!pointBall3->hit) App->renderer->Blit(spritesheetTex, pointBall3->GetPosX(), pointBall3->GetPosY(), &blueBallRect, 1.0f, pointBall3->GetRotation());
+	else App->renderer->Blit(spritesheetTex, pointBall3->GetPosX(), pointBall3->GetPosY(), &orangeBallRect, 1.0f, pointBall3->GetRotation());
+
+	if (!pointBall4->hit) App->renderer->Blit(spritesheetTex, pointBall4->GetPosX(), pointBall4->GetPosY(), &blueBallRect, 1.0f, pointBall4->GetRotation());
+	else App->renderer->Blit(spritesheetTex, pointBall4->GetPosX(), pointBall4->GetPosY(), &orangeBallRect, 1.0f, pointBall4->GetRotation());
+
 	// Blit Star / Bumper Balls
 	if(!starBall->hit) App->renderer->Blit(spritesheetTex, starBall->GetPosX(), starBall->GetPosY(), &starBallRect, 1.0f, starBall->GetRotation());
 	else App->renderer->Blit(spritesheetTex, starBall->GetPosX(), starBall->GetPosY(), &starBallHitRect, 1.0f, starBall->GetRotation());
@@ -448,6 +463,12 @@ update_status ModuleSceneIntro::Update()
 	
 	if (!starBall3->hit) App->renderer->Blit(spritesheetTex, starBall3->GetPosX(), starBall3->GetPosY(), &starBallRect, 1.0f, starBall3->GetRotation());
 	else App->renderer->Blit(spritesheetTex, starBall3->GetPosX(), starBall3->GetPosY(), &starBallHitRect, 1.0f, starBall3->GetRotation());
+
+	if (!starBall4->hit) App->renderer->Blit(spritesheetTex, starBall4->GetPosX(), starBall4->GetPosY(), &starBallRect, 1.0f, starBall4->GetRotation());
+	else App->renderer->Blit(spritesheetTex, starBall4->GetPosX(), starBall4->GetPosY(), &starBallHitRect, 1.0f, starBall4->GetRotation());
+
+	if (!starBall5->hit) App->renderer->Blit(spritesheetTex, starBall5->GetPosX(), starBall5->GetPosY(), &starBallRect, 1.0f, starBall5->GetRotation());
+	else App->renderer->Blit(spritesheetTex, starBall5->GetPosX(), starBall5->GetPosY(), &starBallHitRect, 1.0f, starBall5->GetRotation());
 
 	if (!bigStarBall->hit) App->renderer->Blit(spritesheetTex, bigStarBall->GetPosX(), bigStarBall->GetPosY(), &bigStarBallRect, 1.0f, bigStarBall->GetRotation());
 	else App->renderer->Blit(spritesheetTex, bigStarBall->GetPosX(), bigStarBall->GetPosY(), &bigStarBallHitRect, 1.0f, bigStarBall->GetRotation());
@@ -471,12 +492,12 @@ update_status ModuleSceneIntro::Update()
 void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
 	// Handling balls collisions
-	if (bodyA == pointBall || bodyA == pointBall2)
+	if (bodyA == pointBall || bodyA == pointBall2 || bodyA == pointBall3 || bodyA == pointBall4)
 	{
 		bodyA->hit = !bodyA->hit;
 		score += 10;
 
-		if (pointBall->hit && pointBall2->hit)
+		if (pointBall->hit && pointBall2->hit && pointBall3->hit && pointBall4->hit)
 		{
 			++App->player->lifes;
 			App->audio->PlayFx(oneUpFx);
@@ -485,7 +506,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		App->audio->PlayFx(pointsFx);
 	}
 
-	if (bodyA == starBall || bodyA == starBall2 || bodyA == starBall3 || bodyA == bigStarBall)
+	if (bodyA == starBall || bodyA == starBall2 || bodyA == starBall3 || bodyA == starBall4 || bodyA == bigStarBall)
 	{
 		bodyA->hit = !bodyA->hit;
 		score += 10;
@@ -510,6 +531,8 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 	if (bodyA == sensor3)
 	{
+		pointBall->hit = pointBall2->hit = pointBall3->hit = pointBall4->hit = starBall->hit = starBall2->hit = starBall3->hit = starBall4->hit = starBall5->hit = bigStarBall->hit = false;
+
 		bodyB->pendingToDelete3 = true;
 		if (App->player->lifes > 1) {
 			--App->player->lifes;
@@ -526,6 +549,8 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 	if (bodyA == sensorRamp)
 	{
+		score += 30;
+
 		App->audio->PlayFx(rampFx);
 	}
 }

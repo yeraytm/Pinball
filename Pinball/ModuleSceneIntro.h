@@ -34,9 +34,13 @@ public:
 	// Balls
 	PhysBody* pointBall;
 	PhysBody* pointBall2;
+	PhysBody* pointBall3;
+	PhysBody* pointBall4;
 	PhysBody* starBall;
 	PhysBody* starBall2;
 	PhysBody* starBall3;
+	PhysBody* starBall4;
+	PhysBody* starBall5;
 	PhysBody* bigStarBall;
 
 	// Sensors
