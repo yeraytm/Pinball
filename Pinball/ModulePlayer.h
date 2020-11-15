@@ -25,7 +25,6 @@ public:
 
 	SDL_Rect ballRect;
 	
-	uint numLives = 5;
 	bool gameOver = false;
 
 	uint lifes;

@@ -317,7 +317,7 @@ bool ModuleSceneIntro::Start()
 	starBall3 = App->physics->CreateStaticCircle(180, 490, 18);
 	starBall3->listener = this;
 
-	starBall4 = App->physics->CreateStaticCircle(65, 500, 18);
+	starBall4 = App->physics->CreateStaticCircle(85, 500, 18);
 	starBall4->listener = this;
 
 	starBall5 = App->physics->CreateStaticCircle(85, 100, 18);
@@ -388,7 +388,8 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update()
 {
 	// Handling high score
-	if (score > highScore) {
+	if (score > highScore) 
+	{
 		highScore = score;
 	}
 
@@ -570,7 +571,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		}
 		else 
 		{
-			App->fade_to_black->FadeToBlack((Module*)App->scene_intro, (Module*)App->ending_screen, 100);
+			App->fade_to_black->FadeToBlack((Module*)App->scene_intro, (Module*)App->ending_screen, 50);
 		}
 	}
 
