@@ -31,7 +31,7 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 
 	highScore = 0;
 	prevScore = 0;
-	score = 0;
+	score  = 0;
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -404,13 +404,13 @@ update_status ModuleSceneIntro::Update()
 	App->renderer->Blit(portalTex, 0, 0, &portalRect, 0.0f);
 
 	// Change volume with +/- from the numeric keyboard
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) // SDL_SCANCODE_KP_PLUS
+	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) // SDL_SCANCODE_KP_PLUS
 	{
 		App->audio->volume += 16;
 		App->audio->VolumeChange(App->audio->volume);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN) // SDL_SCANCODE_KP_MINUS
+	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN) // SDL_SCANCODE_KP_MINUS
 	{
 		App->audio->volume -= 16;
 		App->audio->VolumeChange(App->audio->volume);
@@ -418,8 +418,7 @@ update_status ModuleSceneIntro::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
 	{
-		App->audio->volume = 0;
-		App->audio->VolumeChange(App->audio->volume);
+		App->audio->MuteMusic();
 	}
 
 	// Handling spring

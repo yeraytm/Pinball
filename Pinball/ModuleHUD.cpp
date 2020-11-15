@@ -34,13 +34,12 @@ update_status ModuleHUD::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 
-	if (App->audio->volume != 0)
-	{
-		App->renderer->Blit(soundTex, 190, 75, &soundOnRect, 0.0f);
-	}
-	else
-	{
+	if (App->audio->volume == 0 || App->audio->MusicIsPaused()) {
 		App->renderer->Blit(soundTex, 190, 75, &soundOffRect, 0.0f);
+
+	}else{
+					App->renderer->Blit(soundTex, 190, 75, &soundOnRect, 0.0f);
+
 	}
 
 	App->fonts->BlitText(90,12,font,"Score:");

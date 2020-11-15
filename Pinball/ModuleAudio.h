@@ -24,7 +24,10 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 	bool StopMusic();
-
+	bool MuteMusic();
+	bool MusicIsPaused() {
+		return Mix_PausedMusic();
+	}
 	// Methods to control the volume
 	bool VolumeChange(int volume);
 	void VolumeLimiter();
