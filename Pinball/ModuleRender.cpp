@@ -1,6 +1,6 @@
-#include "ModuleRender.h"
 #include "Globals.h"
 #include "Application.h"
+#include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include <math.h>
 

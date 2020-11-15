@@ -1,6 +1,6 @@
-#include "ModuleInput.h"
 #include "Globals.h"
 #include "Application.h"
+#include "ModuleInput.h"
 
 #include "SDL\include\SDL.h"
 

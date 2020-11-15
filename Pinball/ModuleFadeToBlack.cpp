@@ -1,5 +1,5 @@
-#include "ModuleFadeToBlack.h"
 #include "Application.h"
+#include "ModuleFadeToBlack.h"
 #include "ModuleRender.h"
 
 //#include "SDL_render.h"

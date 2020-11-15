@@ -1,6 +1,6 @@
-#include "ModulePlayer.h"
 #include "Globals.h"
 #include "Application.h"
+#include "ModulePlayer.h"
 #include "ModuleTextures.h"
 #include "ModulePhysics.h"
 #include "ModuleRender.h"

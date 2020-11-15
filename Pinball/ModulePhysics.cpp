@@ -1,6 +1,6 @@
-#include "ModulePhysics.h"
 #include "Globals.h"
 #include "Application.h"
+#include "ModulePhysics.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "p2Point.h"
@@ -21,7 +21,7 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 {
 	world = NULL;
 	mouse_joint = NULL;
-	debug = true;
+	debug = false;
 }
 
 // Destructor

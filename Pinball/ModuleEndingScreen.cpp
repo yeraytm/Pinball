@@ -1,5 +1,5 @@
-#include "ModuleEndingScreen.h"
 #include "Application.h"
+#include "ModuleEndingScreen.h"
 #include "ModuleTextures.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleRender.h"
