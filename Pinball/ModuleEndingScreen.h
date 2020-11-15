@@ -12,13 +12,10 @@ class ModuleEndingScreen : public Module
 {
 public:
 	ModuleEndingScreen(Application* app, bool startEnabled = true);
-
 	virtual ~ModuleEndingScreen();
 
 	bool Start();
-
 	update_status Update();
-
 	bool CleanUp();
 
 private:
