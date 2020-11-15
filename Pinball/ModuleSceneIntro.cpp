@@ -42,7 +42,6 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 
 	// Enabling necessary modules
-	App->physics->Enable();
 	App->fonts->Enable();
 	App->hud->Enable();
 	App->player->Enable();
@@ -287,11 +286,6 @@ bool ModuleSceneIntro::Start()
 	// Has Restitution
 	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform3, 12, 1));
 
-	p2List_item<PhysBody*>* pinballBody;
-	for (pinballBody = boardParts.getFirst(); pinballBody; pinballBody = pinballBody->next)
-	{
-		pinballBody->data->body->SetType(b2_staticBody);
-	}
 
 	// Point Balls
 	pointBall = App->physics->CreateCircleSensor(238, 160, 18);
@@ -344,14 +338,32 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(portalTex);
 	App->textures->Unload(spritesheetTex);
 	App->textures->Unload(springTex);
+	//Disabling Physic Bodies
+
 
 	// Disabling modules
-	App->physics->Disable();
+	App->physics->CleanUp();
+	
 	App->fonts->Disable();
 	App->hud->Disable();
 	App->player->Disable();
 	App->flipper->Disable();
+	App->physics->Start();
+	//set all colliders and sensors to nullptr after being destroyed by the physics cleanup
+	boardParts.clear();
+	pointBall = nullptr;
+	pointBall2 = nullptr;
+	starBall = nullptr;
+	starBall2 = nullptr;
+	starBall3 = nullptr;
+	bigStarBall = nullptr;
 
+	// Sensors
+	sensor = nullptr;
+	sensor2 = nullptr;
+	sensor3 = nullptr;
+	sensor4 = nullptr;
+	sensorRamp = nullptr;
 	return true;
 }
 
@@ -501,7 +513,6 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		if (pointBall->hit && pointBall2->hit)
 		{
-			++App->player->lifes;
 			App->audio->PlayFx(oneUpFx);
 		}
 

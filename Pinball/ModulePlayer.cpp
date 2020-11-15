@@ -83,7 +83,7 @@ update_status ModulePlayer::Update()
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
-
+	ball = nullptr;
 	App->textures->Unload(ballTex);
 
 	return true;

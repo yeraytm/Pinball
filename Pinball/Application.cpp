@@ -33,7 +33,7 @@ Application::Application()
 	ending_screen = new ModuleEndingScreen(this, false);
 	
 	hud = new ModuleHUD(this, false);
-	physics = new ModulePhysics(this, false);
+	physics = new ModulePhysics(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
