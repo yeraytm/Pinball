@@ -29,6 +29,7 @@ public:
 	update_status PreUpdate();
 	update_status Update();
 	bool CleanUp();
+
 	void CreateLeftFlipper();
 	void CreateRightFlipper();
 	void LeftMovement();
