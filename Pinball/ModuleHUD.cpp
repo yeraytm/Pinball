@@ -22,7 +22,7 @@ bool ModuleHUD::Start()
 	soundOffRect = { 0, 0, 21, 22 };
 	soundOnRect = { 21, 0, 21, 22 };
 
-	logoTex = App->textures->Load("pinball/graphics/Logo.png");
+	logoTex = App->textures->Load("pinball/graphics/logo.png");
 	logoRect = { 0, 0, 35, 18 };
 	upcTex = App->textures->Load("pinball/graphics/UPC.png");
 	upcRect = { 0, 0, 27, 27 };
