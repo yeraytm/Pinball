@@ -36,4 +36,4 @@ enum update_status
 #define WIN_BORDERLESS false
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
-#define TITLE "Pinball - B.A.T. Studios"
+#define TITLE "Pinball - B.A.T.L. Studios"
