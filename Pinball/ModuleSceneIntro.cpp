@@ -47,8 +47,7 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 	score  = 0;
 }
 
-ModuleSceneIntro::~ModuleSceneIntro()
-{}
+ModuleSceneIntro::~ModuleSceneIntro() {}
 
 // Load assets
 bool ModuleSceneIntro::Start()
@@ -64,7 +63,6 @@ bool ModuleSceneIntro::Start()
 	App->audio->Enable();
 	App->flipper->Enable();
 
-
 	// Loading textures
 	boardTex = App->textures->Load("pinball/graphics/board.png");
 	portalTex = App->textures->Load("pinball/graphics/portal.png");
@@ -72,11 +70,11 @@ bool ModuleSceneIntro::Start()
 	springTex = App->textures->Load("pinball/graphics/spring.png");
 
 	// Loading audio
-	pointsFx = App->audio->LoadFx("pinball/audio/hitBall.wav");
-	bumpFx = App->audio->LoadFx("pinball/audio/hitBallStar.wav");
+	pointsFx = App->audio->LoadFx("pinball/audio/hit_ball.wav");
+	bumpFx = App->audio->LoadFx("pinball/audio/hit_ball_star.wav");
 	rampFx = App->audio->LoadFx("pinball/audio/ramp.wav");
 	oneUpFx = App->audio->LoadFx("pinball/audio/1-up.wav");
-	springFx = App->audio->LoadFx("pinball/audio/firstBump.wav");
+	springFx = App->audio->LoadFx("pinball/audio/first_bump.wav");
 
 	App->audio->PlayMusic("pinball/audio/background_music.ogg");
 
@@ -151,7 +149,6 @@ bool ModuleSceneIntro::Start()
 		95, 677,
 		0,677
 	};
-
 	boardParts.add(App->physics->CreateChain(0, 0, boardBase, 124));
 
 	// Pivot 0, 0
@@ -193,7 +190,6 @@ bool ModuleSceneIntro::Start()
 		101, 353,
 		114, 374
 	};
-
 	boardParts.add(App->physics->CreateChain(0, 0, boardRamp, 72));
 
 	// Pivot 0, 0
@@ -231,7 +227,6 @@ bool ModuleSceneIntro::Start()
 		69, 362,
 		79, 392
 	};
-
 	boardParts.add(App->physics->CreateChain(0, 0, boardRamp2, 64));
 
 	// Pivot 0, 0
@@ -253,7 +248,6 @@ bool ModuleSceneIntro::Start()
 		57, 165,
 		61, 172
 	};
-
 	boardParts.add(App->physics->CreateChain(0, 0, boardCircle, 32));
 
 	// Pivot 0, 0
@@ -265,7 +259,6 @@ bool ModuleSceneIntro::Start()
 	74, 547,
 	76, 540
 	};
-
 	// Has Restitution
 	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform, 12, 1));
 
@@ -277,7 +270,6 @@ bool ModuleSceneIntro::Start()
 		331, 537,
 		297, 599,
 	};
-
 	// Has Restitution
 	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform2, 10, 1));
 
@@ -290,7 +282,6 @@ bool ModuleSceneIntro::Start()
 		345, 469,
 		317, 469
 	};
-
 	// Has Restitution
 	boardParts.add(App->physics->CreateChain(0, 0, boardPlatform3, 12, 1));
 
@@ -368,6 +359,7 @@ bool ModuleSceneIntro::CleanUp()
 
 	// Set all colliders and sensors to nullptr after being destroyed by the physics cleanup
 	boardParts.clear();
+
 	pointBall = nullptr;
 	pointBall2 = nullptr;
 	starBall = nullptr;
@@ -471,7 +463,7 @@ update_status ModuleSceneIntro::Update()
 	}
 
 	// Blit Point Balls
-	if(!pointBall->hit) App->renderer->Blit(spritesheetTex, pointBall->GetPosX(), pointBall->GetPosY(), &blueBallRect, 1.0f, pointBall->GetRotation());
+	if (!pointBall->hit) App->renderer->Blit(spritesheetTex, pointBall->GetPosX(), pointBall->GetPosY(), &blueBallRect, 1.0f, pointBall->GetRotation());
 	else App->renderer->Blit(spritesheetTex, pointBall->GetPosX(), pointBall->GetPosY(), &orangeBallRect, 1.0f, pointBall->GetRotation());
 
 	if (!pointBall2->hit) App->renderer->Blit(spritesheetTex, pointBall2->GetPosX(), pointBall2->GetPosY(), &blueBallRect, 1.0f, pointBall2->GetRotation());
@@ -503,7 +495,7 @@ update_status ModuleSceneIntro::Update()
 	else App->renderer->Blit(spritesheetTex, bigStarBall->GetPosX(), bigStarBall->GetPosY(), &bigStarBallHitRect, 1.0f, bigStarBall->GetRotation());
 
 	// Ray -----------------
-	if(ray_on == true)
+	if (ray_on == true)
 	{
 		fVector destination(mouse.x-ray.x, mouse.y-ray.y);
 		destination.Normalize();

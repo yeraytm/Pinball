@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __MODULE_AUDIO_H__
 #define __MODULE_AUDIO_H__
 
@@ -28,6 +29,7 @@ public:
 	bool MusicIsPaused() {
 		return Mix_PausedMusic();
 	}
+
 	// Methods to control the volume
 	bool VolumeChange(int volume);
 	void VolumeLimiter();

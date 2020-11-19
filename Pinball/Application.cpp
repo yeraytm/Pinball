@@ -63,7 +63,7 @@ Application::~Application()
 {
 	p2List_item<Module*>* item = list_modules.getLast();
 
-	while(item != NULL)
+	while (item != NULL)
 	{
 		delete item->data;
 		item = item->prev;
@@ -77,7 +77,7 @@ bool Application::Init()
 	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();
 
-	while(item != NULL && ret == true)
+	while (item != NULL && ret == true)
 	{
 		ret = item->data->Init();
 		item = item->next;
@@ -87,7 +87,7 @@ bool Application::Init()
 	LOG("Application Start --------------");
 	item = list_modules.getFirst();
 
-	while(item != NULL && ret == true)
+	while (item != NULL && ret == true)
 	{
 		if(item->data->IsEnabled())
 			ret = item->data->Start();
@@ -103,7 +103,7 @@ update_status Application::Update()
 	update_status ret = UPDATE_CONTINUE;
 	p2List_item<Module*>* item = list_modules.getFirst();
 
-	while(item != NULL && ret == UPDATE_CONTINUE)
+	while (item != NULL && ret == UPDATE_CONTINUE)
 	{
 		if(item->data->IsEnabled())
 			ret = item->data->PreUpdate();
@@ -112,7 +112,7 @@ update_status Application::Update()
 
 	item = list_modules.getFirst();
 
-	while(item != NULL && ret == UPDATE_CONTINUE)
+	while (item != NULL && ret == UPDATE_CONTINUE)
 	{
 		if(item->data->IsEnabled())
   			ret = item->data->Update();
@@ -121,7 +121,7 @@ update_status Application::Update()
 
 	item = list_modules.getFirst();
 
-	while(item != NULL && ret == UPDATE_CONTINUE)
+	while (item != NULL && ret == UPDATE_CONTINUE)
 	{
 		if(item->data->IsEnabled())
 			ret = item->data->PostUpdate();
@@ -136,7 +136,7 @@ bool Application::CleanUp()
 	bool ret = true;
 	p2List_item<Module*>* item = list_modules.getLast();
 
-	while(item != NULL && ret == true)
+	while (item != NULL && ret == true)
 	{
 		if (item->data->IsEnabled())
 		{

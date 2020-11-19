@@ -25,7 +25,7 @@ bool ModuleInput::Init()
 
 	SDL_Init(0);
 
-	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
+	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -41,9 +41,9 @@ update_status ModuleInput::PreUpdate()
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 	
-	for(int i = 0; i < MAX_KEYS; ++i)
+	for (int i = 0; i < MAX_KEYS; ++i)
 	{
-		if(keys[i] == 1)
+		if (keys[i] == 1)
 		{
 			if(keyboard[i] == KEY_IDLE)
 				keyboard[i] = KEY_DOWN;
@@ -63,9 +63,9 @@ update_status ModuleInput::PreUpdate()
 	mouse_x /= SCREEN_SIZE;
 	mouse_y /= SCREEN_SIZE;
 
-	for(int i = 0; i < MAX_MOUSE_BUTTONS; ++i)
+	for (int i = 0; i < MAX_MOUSE_BUTTONS; ++i)
 	{
-		if(buttons & SDL_BUTTON(i))
+		if (buttons & SDL_BUTTON(i))
 		{
 			if(mouse_buttons[i] == KEY_IDLE)
 				mouse_buttons[i] = KEY_DOWN;
@@ -81,7 +81,7 @@ update_status ModuleInput::PreUpdate()
 		}
 	}
 
-	if(keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
+	if (keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
 		return UPDATE_STOP;
 
 	SDL_Event event;

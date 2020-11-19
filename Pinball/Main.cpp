@@ -15,7 +15,7 @@ enum main_states
 	MAIN_EXIT
 };
 
-int main(int argc, char ** argv)
+int main(int argc, char** argv)
 {
 	LOG("Starting game '%s'...", TITLE);
 

@@ -71,7 +71,7 @@ bool ModuleFadeToBlack::FadeToBlack(Module* moduleToDisable, Module* moduleToEna
 	bool ret = false;
 
 	// If we are already in a fade process, ignore this call
-	if(currentStep == Fade_Step::NONE)
+	if (currentStep == Fade_Step::NONE)
 	{
 		currentStep = Fade_Step::TO_BLACK;
 		frameCount = 0;

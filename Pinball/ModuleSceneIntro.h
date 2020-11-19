@@ -94,4 +94,5 @@ public:
 	p2Point<int> ray;
 	bool ray_on;
 };
+
 #endif // __MODULE_SCENE_INTRO_H__
